@@ -9,6 +9,8 @@ interface FiltersBarProps {
 	selectedCountry: string;
 }
 
+// TODO: optimisation and cleanup - the filters need to be split in 2 different components and applied at the same time - currently split and not combined
+
 export const FiltersBar = ({
 	selectedCountry,
 	setSelectedCountry,
@@ -41,6 +43,8 @@ export const FiltersBar = ({
 		[setSearchTerm, term]
 	);
 
+	//TODO: RENAME FUNCTIONS
+
 	const updateCountry = useCallback(
 		(e) => setSelectedCountry(e.target.value),
 		[setSelectedCountry]
@@ -51,7 +55,7 @@ export const FiltersBar = ({
 	console.log("filter bar render");
 
 	return (
-		//todo: export setTerm
+		//TODO: export setTerm
 
 		<div className="filters-container">
 			<p>Filters:</p>
