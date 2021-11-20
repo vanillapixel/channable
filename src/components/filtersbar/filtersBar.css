@@ -1,0 +1,31 @@
+.search-bar-container {
+  width: 300px;
+}
+
+.search-bar {
+  display: flex;
+  flex-direction: row;
+}
+
+.search-bar input,
+.search-bar button {
+  padding: 1rem;
+  color: #383838;
+}
+
+.filters-container {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+}
+
+.filters-container p {
+  display: flex;
+  align-self: center;
+  font-size: 2rem;
+  color: white;
+}
+
+select {
+  width: 200px;
+}

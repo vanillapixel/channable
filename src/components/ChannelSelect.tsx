@@ -1,17 +1,14 @@
 import React, { FC, useState, useEffect } from "react";
-import { SearchBar } from "./SearchBar";
 import "./channelSelect.css";
 import "./channelsList.css";
 import channelsList from "./channelsList";
 
 import { Pagination } from "./pagination/Pagination";
+import { FiltersBar } from "./filtersbar/FiltersBar";
 
 export const ChannelSelect: FC = () => {
-	const [searchTerm, setSearchTerm] = useState("");
-	const [selectedCountry, setSelectedCountry] = useState("NL");
-
-	const [maxRows, setMaxRows] = useState(3);
-	const [maxColumns, setMaxColumns] = useState(5);
+	const [maxRows] = useState(3);
+	const [maxColumns] = useState(5);
 
 	const [displayedPage, setDisplayedPage] = useState(0);
 
@@ -19,35 +16,18 @@ export const ChannelSelect: FC = () => {
 
 	let [selectedChannels, setSelectedChannels] = useState<Array<string>>([]);
 
-	// unique country names sorted alphabetically
-	let countriesList = [
-		...new Set([...channelsList].map((country) => country.country)),
-	].sort((a, b) => {
-		if (a < b) {
-			return -1;
-		}
-		if (a > b) {
-			return 1;
-		}
-		return 0;
-	});
-
-	// ];
+	const [searchTerm, setSearchTerm] = useState("");
+	const [selectedCountry, setSelectedCountry] = useState("all");
 
 	// name filter bar (text input)
 	// country filter bar (select input)
 	// channels list
-	// channel card (C)
-	// channel placeholder picture
 	// OPTIONAL isFavourite -> star icon grey false default - filled yellow if true
-	// channel name
-	// channel input -> isSelected (default false) isFavourite default true
-	// pagination (C)
 
 	console.log("component loaded");
 
-	const onSubmit = (e: any) => {
-		e.preventDefault();
+	const updateChannelsListBySearchTerm = () => {
+		setSearchTerm(searchTerm);
 		setSelectedCountry("");
 		setDisplayedPage(0);
 		setDisplayedChannels(
@@ -57,13 +37,18 @@ export const ChannelSelect: FC = () => {
 		);
 	};
 
-	const updateChannelsList = (e: any) => {
+	const updateChannelsListByCountry = () => {
 		setSearchTerm("");
 		setDisplayedPage(0);
-		setSelectedCountry(e.target.value);
+		setSelectedCountry(selectedCountry);
+		if (selectedCountry === "all") {
+			setDisplayedChannels([...channelsList]);
+			return;
+		}
 		setDisplayedChannels(
 			[...channelsList].filter((channel) => channel.country === selectedCountry)
 		);
+		console.log("country run");
 	};
 
 	const paginate = (pageNumber: number) => {
@@ -80,96 +65,102 @@ export const ChannelSelect: FC = () => {
 		setSelectedChannels([...selectedChannels, channelLabel]);
 	};
 
-	// const paginate () => {
+	const removeSelected = (channelLabel: string) => {
+		setSelectedChannels(
+			[...selectedChannels].filter((label) => label !== channelLabel)
+		);
+	};
 
-	// }
+	useEffect(() => {
+		updateChannelsListByCountry();
+		// eslint-disable-next-line
+	}, [selectedCountry]);
 
-	useEffect(() => {}, [displayedChannels]);
+	useEffect(() => {
+		updateChannelsListBySearchTerm();
+		// eslint-disable-next-line
+	}, [searchTerm]);
+
+	console.log(displayedChannels);
 
 	return (
 		<div className="channels-select-container">
 			<div className="channels-select">
-				{/* NAME SEARCH BAR FILTER */}
-				<div className="filters-container">
-					{selectedChannels && selectedChannels.map((x) => <h2>{x}</h2>)}
-					<div className="search-bar-container">
-						<form
-							className="filter-option search-bar"
-							onSubmit={(e) => onSubmit(e)}
-						>
-							<p>
-								<label htmlFor="search-term">Channel:</label>
-								<input
-									type="text"
-									id="search-term"
-									name="searchTerm"
-									value={searchTerm}
-									placeholder="Search for channels, e.g. Google"
-									onChange={(e) => setSearchTerm(e.target.value)}
-								/>
-							</p>
-							<button type="submit"> Search</button>
-						</form>
-					</div>
-
-					{/* COUNTRY SEARCH BAR FILTER */}
-					<select
-						className="filter-option"
-						name="country options"
-						value={selectedCountry}
-						onChange={(e) => updateChannelsList(e)}
-					>
-						{countriesList.map((country) => (
-							<>
-								<option value={country}>{country}</option>
-								<div className="flag">
-									<img
-										src={`../imgs/icons/flags/24x24/${country.toLowerCase()}.png`}
-										alt=""
-									/>
-								</div>
-							</>
-						))}
-					</select>
-				</div>
+				<FiltersBar
+					selectedCountry={selectedCountry}
+					setSelectedCountry={setSelectedCountry}
+					setSearchTerm={setSearchTerm}
+				/>
 
 				{/* CHANNELS LIST */}
-				<div className="channels-list">
-					{[...displayedChannels]
-						.slice(
-							displayedPage * maxRows * maxColumns,
-							maxRows * maxColumns * (displayedPage + 1)
-						)
-						.map((channel) => (
-							// single channel component
-							<div
-								className={
-									selectedChannels.includes(channel.label)
-										? "channel-card channel-card-selected"
-										: "channel-card"
-								}
-								onClick={() => toggleSelectedChannel(channel.label)}
-							>
-								<span className="channel-name">{channel.label}</span>
-								<div className="channel-logo-container">
-									<img
-										className="channel-logo-image"
-										src={
-											Math.random() > 0.5
-												? `../imgs/logo-placeholder.png`
-												: `../imgs/channable-logo.png`
-										}
-										alt={channel.label + "logo"}
-									/>
+				<div className="channels-container">
+					<div className="channels-list">
+						{[...displayedChannels]
+							.slice(
+								displayedPage * maxRows * maxColumns,
+								maxRows * maxColumns * (displayedPage + 1)
+							)
+							.map((channel, id) => (
+								// single channel component
+								<div
+									key={id}
+									className="channel-card"
+									onClick={() => toggleSelectedChannel(channel.label)}
+								>
+									<div className="card-details">
+										<span className="channel-name">{channel.label}</span>
+									</div>
+									<div className="channel-banner-container">
+										<img
+											className="channel-banner-image"
+											src="../imgs/logo-placeholder.png"
+											alt={channel.label + "logo"}
+										/>
+									</div>
+									<div className="card-details">
+										<div className="flag">
+											<img
+												src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
+												alt=""
+											/>
+										</div>
+										<div
+											className={
+												selectedChannels.includes(channel.label)
+													? "checkbox channel-selected"
+													: "checkbox"
+											}
+										>
+											{selectedChannels.includes(channel.label)
+												? "Selected"
+												: "Select channel"}
+										</div>
+									</div>
 								</div>
-								<div className="flag">
-									<img
-										src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
-										alt=""
-									/>
+							))}
+					</div>
+					<div className="selected-channels-list">
+						<span>Selected Channels</span>
+						{selectedChannels &&
+							selectedChannels.map((channelName, id) => (
+								<div key={id} className="selected-channel">
+									<div className="logo-container">
+										<img
+											className="small-logo"
+											src="../imgs/logo-mini.png"
+											alt=""
+										/>
+									</div>
+									<span>{channelName}</span>
+									<div
+										onClick={() => removeSelected(channelName)}
+										className="remove-icon"
+									>
+										X
+									</div>
 								</div>
-							</div>
-						))}
+							))}
+					</div>
 				</div>
 
 				{/* SELECTED LIST */}
@@ -185,7 +176,6 @@ export const ChannelSelect: FC = () => {
 					displayedPage={displayedPage}
 				/>
 			</div>
-			<div className="selected-channels"></div>
 		</div>
 	);
 };
