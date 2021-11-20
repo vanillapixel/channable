@@ -1,0 +1,25 @@
+.page-selector-bar {
+	display: flex;
+	flex-direction: row;
+	margin: auto;
+	justify-content: center;
+	.page-selector-icon {
+		padding: 1rem;
+		margin: 0 5px;
+		width: 24px;
+		height: 24px;
+		text-align: center;
+		color: white;
+		border: 1px solid var(--accent-color-1);
+		font-size: 1.5rem;
+		line-height: 2.5rem;
+		cursor: pointer;
+		transition: 0.3s;
+		&:hover {
+			background-color: var(--accent-color-1);
+		}
+	}
+	.page-selector-icon-selector-active {
+		background-color: var(--accent-color-1);
+	}
+}
