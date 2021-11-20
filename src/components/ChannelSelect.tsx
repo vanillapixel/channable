@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { FC, useState, useEffect, useCallback } from "react";
 import "./channelSelect.css";
 import "./channelsList.css";
 import channelsList from "./channelsList";
@@ -6,15 +6,14 @@ import channelsList from "./channelsList";
 import { Pagination } from "./pagination/Pagination";
 import { FiltersBar } from "./filtersbar/FiltersBar";
 
-export const ChannelSelect: FC = () => {
-	const [maxRows] = useState(3);
-	const [maxColumns] = useState(5);
+const MAX_ROWS = 3;
+const MAX_COLUMNS = 5;
 
+export const ChannelSelect: FC = () => {
 	const [displayedPage, setDisplayedPage] = useState(0);
 
-	let [displayedChannels, setDisplayedChannels] = useState([...channelsList]);
-
-	let [selectedChannels, setSelectedChannels] = useState<Array<string>>([]);
+	const [displayedChannels, setDisplayedChannels] = useState([...channelsList]);
+	const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
 
 	const [searchTerm, setSearchTerm] = useState("");
 	const [selectedCountry, setSelectedCountry] = useState("all");
@@ -26,7 +25,7 @@ export const ChannelSelect: FC = () => {
 
 	console.log("component loaded");
 
-	const updateChannelsListBySearchTerm = () => {
+	const updateChannelsListBySearchTerm = useCallback(() => {
 		setSearchTerm(searchTerm);
 		setSelectedCountry("");
 		setDisplayedPage(0);
@@ -35,13 +34,13 @@ export const ChannelSelect: FC = () => {
 				channel.key.toLowerCase().includes(searchTerm)
 			)
 		);
-	};
+	}, [searchTerm]);
 
-	const updateChannelsListByCountry = () => {
+	const updateChannelsListByCountry = useCallback(() => {
 		setSearchTerm("");
 		setDisplayedPage(0);
 		setSelectedCountry(selectedCountry);
-		if (selectedCountry === "all") {
+		if (selectedCountry === "all" || selectedCountry === "") {
 			setDisplayedChannels([...channelsList]);
 			return;
 		}
@@ -49,27 +48,33 @@ export const ChannelSelect: FC = () => {
 			[...channelsList].filter((channel) => channel.country === selectedCountry)
 		);
 		console.log("country run");
-	};
+	}, [selectedCountry]);
 
-	const paginate = (pageNumber: number) => {
+	const paginate = useCallback((pageNumber: number) => {
 		setDisplayedPage(pageNumber);
-	};
+	}, []);
 
-	const toggleSelectedChannel = (channelLabel: string) => {
-		if (selectedChannels.includes(channelLabel)) {
+	const toggleSelectedChannel = useCallback(
+		(channelLabel: string) => {
+			if (selectedChannels.includes(channelLabel)) {
+				setSelectedChannels(
+					[...selectedChannels].filter((label) => label !== channelLabel)
+				);
+				return;
+			}
+			setSelectedChannels([...selectedChannels, channelLabel]);
+		},
+		[selectedChannels]
+	);
+
+	const removeSelected = useCallback(
+		(channelLabel: string) => {
 			setSelectedChannels(
 				[...selectedChannels].filter((label) => label !== channelLabel)
 			);
-			return;
-		}
-		setSelectedChannels([...selectedChannels, channelLabel]);
-	};
-
-	const removeSelected = (channelLabel: string) => {
-		setSelectedChannels(
-			[...selectedChannels].filter((label) => label !== channelLabel)
-		);
-	};
+		},
+		[selectedChannels]
+	);
 
 	useEffect(() => {
 		updateChannelsListByCountry();
@@ -97,13 +102,13 @@ export const ChannelSelect: FC = () => {
 					<div className="channels-list">
 						{[...displayedChannels]
 							.slice(
-								displayedPage * maxRows * maxColumns,
-								maxRows * maxColumns * (displayedPage + 1)
+								displayedPage * MAX_ROWS * MAX_COLUMNS,
+								MAX_ROWS * MAX_COLUMNS * (displayedPage + 1)
 							)
-							.map((channel, id) => (
+							.map((channel) => (
 								// single channel component
 								<div
-									key={id}
+									key={channel.key}
 									className="channel-card"
 									onClick={() => toggleSelectedChannel(channel.label)}
 								>
@@ -139,6 +144,7 @@ export const ChannelSelect: FC = () => {
 								</div>
 							))}
 					</div>
+					{/* selected list */}
 					<div className="selected-channels-list">
 						<span>Selected Channels</span>
 						{selectedChannels &&
@@ -165,13 +171,11 @@ export const ChannelSelect: FC = () => {
 
 				{/* SELECTED LIST */}
 
-				<div className="selected-list"></div>
-
 				{/* PAGINATION BAR */}
 				<Pagination
 					totalResults={displayedChannels.length}
-					maxRows={maxRows}
-					maxColumns={maxColumns}
+					maxRows={MAX_ROWS}
+					maxColumns={MAX_COLUMNS}
 					paginate={paginate}
 					displayedPage={displayedPage}
 				/>

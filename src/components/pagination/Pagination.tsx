@@ -8,6 +8,20 @@ interface PaginationProps {
 	paginate: Function;
 	displayedPage: number;
 }
+
+const PAGE_NUMBERS_LIMIT = 10;
+
+const getPageNumbers = (
+	totalResults: number,
+	maxRows: number,
+	maxColumns: number
+) => {
+	const arrayOfPages = Array.from(
+		Array(Math.ceil(totalResults / (maxRows * maxColumns))).keys()
+	);
+	return arrayOfPages;
+};
+
 export const Pagination = ({
 	totalResults,
 	maxRows,
@@ -16,25 +30,21 @@ export const Pagination = ({
 	displayedPage,
 }: PaginationProps) => {
 	// it fills an array with the range of numbers of the available pages
-	const getPageNumbers = () => {
-		let arrayOfPages = Array.from(
-			Array(Math.ceil(totalResults / (maxRows * maxColumns))).keys()
-		);
-		return arrayOfPages;
-	};
-	let [pageNumbers, setPageNumbers] = useState(getPageNumbers());
+	const [pageNumbers, setPageNumbers] = useState<number[]>([]);
+	const [pageNumbersSets, setPageNumbersSets] = useState<number>(0);
 
-	const PAGE_NUMBERS_LIMIT = 10;
-	const calculatePageNumbersSets: Function = () =>
-		Math.ceil(pageNumbers.length / PAGE_NUMBERS_LIMIT);
-
-	let pageNumbersSets: number = calculatePageNumbersSets();
-
-	let [currentPageNumbersSet, setCurrentPageNumbersSet] = useState<number>(0);
+	const [currentPageNumbersSet, setCurrentPageNumbersSet] = useState<number>(0);
 
 	useEffect(() => {
-		setPageNumbers(getPageNumbers());
-		console.log("peto");
+		const newPageNumbers = getPageNumbers(totalResults, maxRows, maxColumns);
+		const pageNumberSets = Math.ceil(
+			newPageNumbers.length / PAGE_NUMBERS_LIMIT
+		);
+		setPageNumbers(newPageNumbers);
+		setPageNumbersSets(pageNumberSets);
+		setCurrentPageNumbersSet(0);
+
+		console.log(pageNumberSets);
 		// eslint-disable-next-line
 	}, [totalResults]);
 
@@ -54,7 +64,6 @@ export const Pagination = ({
 			>
 				{"<<"}
 			</div>
-
 			{pageNumbers
 				.slice(
 					currentPageNumbersSet * PAGE_NUMBERS_LIMIT,

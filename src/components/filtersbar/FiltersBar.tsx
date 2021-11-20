@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import channelsList from "../channelsList";
 import { countries } from "../../data/countries";
 import "./filtersBar.css";
@@ -32,26 +32,38 @@ export const FiltersBar = ({
 	const countriesFullNames: Countries = countries;
 
 	let [term, setTerm] = useState("");
+
+	const onSubmit = useCallback(
+		(e) => {
+			e.preventDefault();
+			setSearchTerm(term);
+		},
+		[setSearchTerm, term]
+	);
+
+	const updateCountry = useCallback(
+		(e) => setSelectedCountry(e.target.value),
+		[setSelectedCountry]
+	);
+
+	const updateTerm = useCallback((e) => setTerm(e.target.value), []);
+
 	console.log("filter bar render");
 
 	return (
+		//todo: export setTerm
+
 		<div className="filters-container">
 			<p>Filters:</p>
 			<div className="search-bar-container">
-				<form
-					className="filter-option search-bar"
-					onSubmit={(e) => {
-						e.preventDefault();
-						setSearchTerm(term);
-					}}
-				>
+				<form className="filter-option search-bar" onSubmit={onSubmit}>
 					<input
 						type="text"
 						id="search-term"
 						name="term"
 						value={term}
 						placeholder="Search for channels, e.g. Google"
-						onChange={(e) => setTerm(e.target.value)}
+						onChange={updateTerm}
 					/>
 					<button type="submit"> Search</button>
 				</form>
@@ -62,9 +74,9 @@ export const FiltersBar = ({
 				className="filter-option"
 				name="country options"
 				value={selectedCountry}
-				onChange={(e) => setSelectedCountry(e.target.value)}
+				onChange={updateCountry}
 			>
-				<option value="all">ALL</option>
+				<option value="all">---------</option>
 				{countriesList.map((country: string, id) => (
 					<>
 						<option key={id} value={country}>
