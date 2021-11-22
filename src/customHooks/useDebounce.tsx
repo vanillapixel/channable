@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import useTimeout from "./useTimeout";
 
 export default function useDebounce(
-	callback: void,
+	callback: any,
 	delay: number,
 	dependencies: any
 ) {

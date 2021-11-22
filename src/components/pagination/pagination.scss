@@ -1,9 +1,9 @@
 .page-selector-bar {
 	display: flex;
 	flex-direction: row;
-	margin: auto;
 	justify-content: center;
 	margin-top: 3rem;
+	max-width: 80%;
 	.page-selector-icon {
 		padding: 0.3rem;
 		margin: 0 7px;

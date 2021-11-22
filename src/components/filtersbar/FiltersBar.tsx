@@ -14,25 +14,27 @@ interface FiltersBarProps {
 
 export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 	const [searchTerm, setSearchTerm] = useState(filters.searchTerm);
+	const [newSearchTerm, setNewSearchTerm] = useState(searchTerm);
 	const [selectedCountry, setSelectedCountry] = useState(
 		filters.selectedCountry
 	);
 
-	const updateSearchTermFilter = useCallback(
-		(e: ChangeEvent<HTMLInputElement>) => {
-			e.preventDefault();
-			console.log(searchTerm);
-			setSearchTerm(e.target.value);
-			setFilters({ searchTerm: e.target.value, selectedCountry: "all" });
-			setSelectedCountry("all");
-		},
-		[setFilters]
-	);
+	const updateSearchTermFilter = () => {
+		setFilters({ searchTerm: newSearchTerm, selectedCountry: "all" });
+		setSelectedCountry("all");
+	};
+
+	const updateComponent = (e: ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
+		setNewSearchTerm(e.target.value);
+	};
+	useDebounce(() => updateSearchTermFilter(), 400, [newSearchTerm]);
 
 	const updateSelectedCountryFilter = useCallback(
 		(e: ChangeEvent<HTMLSelectElement>) => {
-			setSelectedCountry(e.target.value);
-			setFilters({ searchTerm: "", selectedCountry: e.target.value });
+			const newCountrySelected = e.target.value;
+			setSelectedCountry(newCountrySelected);
+			setFilters({ searchTerm: "", selectedCountry: newCountrySelected });
 			setSearchTerm("");
 		},
 		[setFilters]
@@ -47,7 +49,7 @@ export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 			<p>Filters:</p>
 			<SearchTermFilter
 				searchTerm={searchTerm}
-				updateSearchTermFilter={updateSearchTermFilter}
+				updateComponent={updateComponent}
 			/>
 			<CountryFilter
 				selectedCountry={selectedCountry}

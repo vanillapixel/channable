@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import { ChannelsList } from "./channelsList/ChannelsList";
 import { SelectedChannelsList } from "./selectedChannelsList/SelectedChannelsList";
-import { Pagination } from "../pagination/Pagination";
 import "./channelsLists.css";
 
 interface ChannelsListProps {
@@ -39,13 +38,6 @@ export const ChannelsLists = ({
 						displayedPage={displayedPage}
 						selectedChannels={selectedChannels}
 						setSelectedChannels={setSelectedChannels}
-					/>
-					<Pagination
-						totalResults={displayedChannels.length}
-						maxRows={maxRows}
-						maxColumns={maxColumns}
-						setDisplayedPage={setDisplayedPage}
-						displayedPage={displayedPage}
 					/>
 				</div>
 

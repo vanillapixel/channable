@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 
 import { FiltersBar } from "./filtersBar/FiltersBar";
 import { ChannelsLists } from "./channelsLists/ChannelsLists";
+import { Pagination } from "./pagination/Pagination";
 
 interface Channel {
 	key: string;
@@ -38,7 +39,7 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 
 		setDisplayedChannels(newFilteredChannelsList);
 		setDisplayedPage(0);
-	}, [filters]);
+	}, [channelsList, filters]);
 
 	console.log("component loaded");
 
@@ -55,6 +56,13 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 				displayedPage={displayedPage}
 				setDisplayedPage={setDisplayedPage}
 				displayedChannels={displayedChannels}
+			/>
+			<Pagination
+				totalResults={displayedChannels.length}
+				maxRows={MAX_ROWS}
+				maxColumns={MAX_COLUMNS}
+				setDisplayedPage={setDisplayedPage}
+				displayedPage={displayedPage}
 			/>
 		</>
 	);
