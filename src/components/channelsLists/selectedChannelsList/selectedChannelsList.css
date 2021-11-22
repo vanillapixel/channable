@@ -1,0 +1,96 @@
+.selected-channels-list {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  margin: 2rem 0;
+  gap: 10px;
+  width: 30rem;
+  max-height: 70rem;
+  height: 70rem;
+  overflow-y: scroll;
+  background: #282630;
+}
+
+.selected-channels-list .selected-channels-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--accent-color-3);
+}
+
+.selected-channels-list .selected-channels-title-container span {
+  padding: 2rem;
+  font-size: 1.8rem;
+}
+
+.selected-channels-list .selected-channels-title-container .icon {
+  cursor: default;
+  padding: 2rem;
+  font-size: 3rem;
+  background-color: #282630;
+}
+
+.selected-channels-list .selected-channels-title-container .icon:hover {
+  background-color: #282630;
+}
+
+.selected-channels-list::-webkit-scrollbar {
+  width: 8px;
+  background-color: #2b2b2b;
+}
+
+.selected-channels-list::-webkit-scrollbar-thumb {
+  border-radius: 0px;
+  background-color: var(--accent-color-3);
+}
+
+.selected-channels-list .selected-channel {
+  padding: 0.3rem 1rem;
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  flex-direction: row;
+  max-height: 5rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.selected-channels-list .selected-channel:nth-child(even) {
+  background: #4646465c;
+}
+
+.selected-channels-list .selected-channel span {
+  font-size: 1.5rem;
+  padding: 0 1rem;
+  color: white;
+}
+
+.selected-channels-list .logo-container {
+  width: 24px;
+  height: 24px;
+}
+
+.selected-channels-list .logo-container img {
+  width: 100%;
+}
+
+.selected-channels-list .icon {
+  padding: 1rem;
+  margin: 0 5px;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--accent-color-3);
+  text-align: center;
+  color: white;
+  font-size: 1.5rem;
+  line-height: 2.5rem;
+  transform: scale(0.6);
+}
+
+.selected-channels-list .remove-icon {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.selected-channels-list .remove-icon:hover {
+  background-color: var(--accent-color-3);
+}

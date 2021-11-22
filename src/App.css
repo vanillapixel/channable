@@ -1,0 +1,11 @@
+.channels-select-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 3rem;
+  padding-bottom: 0;
+}
+
+.channels-select {
+  min-width: 100%;
+}

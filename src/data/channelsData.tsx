@@ -1,4 +1,4 @@
-export const channelList = [
+export const channelsData = [
     {
         "key":"affiliate4you",
         "label":"Affiliate4you",
@@ -1340,5 +1340,3 @@ export const channelList = [
         "country":"BE"
     }
 ];
-
-export default channelList;
