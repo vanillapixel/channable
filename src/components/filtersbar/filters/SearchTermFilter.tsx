@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 
 interface SearchTermFilterProps {
 	filters: {
@@ -27,6 +27,12 @@ export const SearchTermFilter = ({
 		e.preventDefault();
 		setSearchTerm(e.target.value.toLowerCase());
 	}, []);
+
+	useEffect(() => {
+		setSearchTerm(filters.searchTerm);
+	}, [filters.selectedCountry]);
+
+	console.log("peto");
 
 	return (
 		<form

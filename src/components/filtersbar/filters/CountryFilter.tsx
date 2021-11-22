@@ -45,6 +45,10 @@ export const CountryFilter = ({ filters, setFilters }: CountryFilterProps) => {
 		setFilters({ searchTerm: "", selectedCountry });
 	}, [selectedCountry, setFilters]);
 
+	useEffect(() => {
+		setSelectedCountry(filters.selectedCountry);
+	}, [filters.searchTerm]);
+
 	return (
 		<select
 			className="filter-option"
