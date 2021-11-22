@@ -1,15 +1,23 @@
-import { FC, useState, useEffect, useCallback } from "react";
-
-import { channelsData } from "../data/channelsData";
+import { useState, useEffect, useCallback } from "react";
 
 import { FiltersBar } from "./filtersBar/FiltersBar";
 import { ChannelsLists } from "./channelsLists/ChannelsLists";
 
+interface Channel {
+	key: string;
+	label: string;
+	country: string;
+}
+
+interface ChannelsSelectProps {
+	channelsList: Channel[];
+}
+
 const MAX_ROWS = 3;
 const MAX_COLUMNS = 5;
 
-export const ChannelSelect: FC = () => {
-	const [displayedChannels, setDisplayedChannels] = useState(channelsData);
+export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
+	const [displayedChannels, setDisplayedChannels] = useState(channelsList);
 	const [displayedPage, setDisplayedPage] = useState(0);
 
 	const [filters, setFilters] = useState({
@@ -17,13 +25,11 @@ export const ChannelSelect: FC = () => {
 		selectedCountry: "all",
 	});
 
-	console.log(filters);
-
 	// OPTIONAL isFavourite -> star icon grey false default - filled yellow if true
 
 	const filterChannelsList = useCallback(() => {
 		const { searchTerm, selectedCountry } = filters;
-		const newFilteredChannelsList = [...channelsData].filter((channel) => {
+		const newFilteredChannelsList = channelsList.filter((channel) => {
 			const { country, key } = channel;
 			if (selectedCountry === "all" && searchTerm === "") return channel;
 			if (searchTerm !== "" && key.includes(searchTerm)) return channel;

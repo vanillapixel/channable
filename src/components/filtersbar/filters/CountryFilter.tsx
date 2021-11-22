@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useCallback } from "react";
+import { useMemo, ChangeEventHandler } from "react";
 
 import { channelsData } from "../../../data/channelsData";
 import { countries } from "../../../data/countries";
@@ -8,15 +8,15 @@ type Countries = {
 };
 
 interface CountryFilterProps {
-	filters: {
-		selectedCountry: string;
-		searchTerm: string;
-	};
-	setFilters: Function;
+	selectedCountry: string;
+	updateSelectedCountryFilter: ChangeEventHandler<HTMLSelectElement>;
 }
 const countriesFullNames: Countries = countries;
 
-export const CountryFilter = ({ filters, setFilters }: CountryFilterProps) => {
+export const CountryFilter = ({
+	selectedCountry,
+	updateSelectedCountryFilter,
+}: CountryFilterProps) => {
 	// unique country names (filters out duplicates with new Set) sorted alphabetically
 	let countriesList = useMemo(() => {
 		return [
@@ -32,31 +32,14 @@ export const CountryFilter = ({ filters, setFilters }: CountryFilterProps) => {
 		});
 	}, []);
 
-	const [selectedCountry, setSelectedCountry] = useState(
-		filters.selectedCountry
-	);
-
-	const updateSelectedCountryInputValue = useCallback((e) => {
-		e.preventDefault();
-		setSelectedCountry(e.target.value);
-	}, []);
-
-	useEffect(() => {
-		setFilters({ searchTerm: "", selectedCountry });
-	}, [selectedCountry, setFilters]);
-
-	useEffect(() => {
-		setSelectedCountry(filters.selectedCountry);
-	}, [filters.searchTerm]);
-
 	return (
 		<select
 			className="filter-option"
 			name="country options"
 			value={selectedCountry}
-			onChange={updateSelectedCountryInputValue}
+			onChange={updateSelectedCountryFilter}
 		>
-			<option value="all">---------</option>
+			<option value="all">All countries</option>
 			{countriesList.map((country: string, id) => (
 				<>
 					<option key={id} value={country}>

@@ -1,42 +1,19 @@
-import { useState, useCallback, useEffect } from "react";
+import { ChangeEventHandler } from "react";
 
 interface SearchTermFilterProps {
-	filters: {
-		searchTerm: string;
-		selectedCountry: string;
-	};
-	setFilters: Function;
+	searchTerm: string;
+	updateSearchTermFilter: ChangeEventHandler<HTMLInputElement>;
+	// updateSearchTermFilter: Function;
 }
 
 export const SearchTermFilter = ({
-	filters,
-	setFilters,
-}: SearchTermFilterProps) => {
-	const [searchTerm, setSearchTerm] = useState(filters.searchTerm);
-
-	const updateSearchTermFilter = useCallback(
-		(e) => {
-			e.preventDefault();
-			console.log(searchTerm);
-			setFilters({ searchTerm: searchTerm, selectedCountry: "all" });
-		},
-		[searchTerm, setFilters]
-	);
-
-	const updateSearchTermInputValue = useCallback((e) => {
-		e.preventDefault();
-		setSearchTerm(e.target.value.toLowerCase());
-	}, []);
-
-	useEffect(() => {
-		setSearchTerm(filters.searchTerm);
-	}, [filters.selectedCountry]);
-
-	console.log("peto");
-
+	searchTerm,
+	updateSearchTermFilter,
+}: // updateSearchTermFilter,
+SearchTermFilterProps) => {
 	return (
-		<form
-			onSubmit={updateSearchTermFilter}
+		<div
+			// onSubmit={() => updateSearchTermFilter()}
 			className="filter-option search-bar"
 		>
 			<input
@@ -45,9 +22,9 @@ export const SearchTermFilter = ({
 				name="term"
 				value={searchTerm}
 				placeholder="Search for channels, e.g. Google"
-				onChange={updateSearchTermInputValue}
+				onChange={updateSearchTermFilter}
 			/>
 			<button type="submit">Search</button>
-		</form>
+		</div>
 	);
 };
