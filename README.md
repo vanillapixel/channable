@@ -21,6 +21,8 @@ yarn run start
 
 - DEBOUNCE function to limit search term change rate to improve computing performance (and database calls if remote) instead of the "Submit" search button.
 
+- Selected channels are previewed in the side pane to facilitate their removal and to help the user which the doublecheck of their selection.
+
 ---
 
 ## Possible further development
