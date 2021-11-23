@@ -1,5 +1,11 @@
 # Channable Assignment
 
+## Install
+
+```
+yarn install
+```
+
 ## Run
 
 ```
