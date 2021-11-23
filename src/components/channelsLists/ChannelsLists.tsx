@@ -30,7 +30,6 @@ export const ChannelsLists = ({
 				<div className="channels-list-container">
 					{/* <span className="title-container">Select your channels</span> */}
 
-					{/* CHANNELS LIST */}
 					<ChannelsList
 						displayedChannels={displayedChannels}
 						maxRows={maxRows}
@@ -41,7 +40,6 @@ export const ChannelsLists = ({
 					/>
 				</div>
 
-				{/* SELECTED LIST */}
 				<SelectedChannelsList
 					selectedChannels={selectedChannels}
 					setSelectedChannels={setSelectedChannels}

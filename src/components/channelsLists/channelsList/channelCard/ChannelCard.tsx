@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import "./channelCard.css";
 
+import { StarIcon } from "../../../../data/Icons";
+import { SelectChannelButton } from "./SelectChannelButton";
+
 interface ChannelCardProps {
 	channel: {
 		key: string;
@@ -32,19 +35,7 @@ export const ChannelCard = ({
 		<div key={channel.key} className="channel-card">
 			<div className="card-details">
 				<span className="channel-name">{channel.label}</span>
-				<svg
-					width="20"
-					height="20"
-					viewBox="0 0 20 20"
-					xmlns="http://www.w3.org/2000/svg"
-				>
-					<polygon
-						fill="none"
-						stroke="#000"
-						stroke-width="1.01"
-						points="10 2 12.63 7.27 18.5 8.12 14.25 12.22 15.25 18 10 15.27 4.75 18 5.75 12.22 1.5 8.12 7.37 7.27"
-					></polygon>
-				</svg>
+				<StarIcon className="icon" />
 			</div>
 			<div className="channel-banner-container">
 				<img
@@ -60,18 +51,11 @@ export const ChannelCard = ({
 						alt=""
 					/>
 				</div>
-				<div
-					className={
-						selectedChannels.includes(channel.label)
-							? "selected-checkbox channel-selected-active"
-							: "selected-checkbox"
-					}
-					onClick={() => toggleSelectedChannel(channel.label)}
-				>
-					{selectedChannels.includes(channel.label)
-						? "Selected"
-						: "Select channel"}
-				</div>
+				<SelectChannelButton
+					selectedChannels={selectedChannels}
+					channelLabel={channel.label}
+					toggleSelectedChannel={toggleSelectedChannel}
+				/>
 			</div>
 		</div>
 	);

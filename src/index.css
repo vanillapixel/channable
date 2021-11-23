@@ -41,6 +41,10 @@ h2 {
 	user-select: none;
 }
 
+.icon {
+	cursor: pointer;
+}
+
 .fade-in {
 	animation: fade-in 1s;
 }

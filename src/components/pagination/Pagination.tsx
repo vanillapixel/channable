@@ -53,6 +53,16 @@ export const Pagination = ({
 		[setDisplayedPage]
 	);
 
+	const setPreviousPageNumbersSet = useCallback(() => {
+		if (currentPageNumbersSet === 0) return;
+		setCurrentPageNumbersSet(currentPageNumbersSet - 1);
+	}, [currentPageNumbersSet]);
+
+	const setNextPageNumbersSet = useCallback(() => {
+		if (currentPageNumbersSet === pageNumbersSets - 1) return;
+		setCurrentPageNumbersSet(currentPageNumbersSet + 1);
+	}, [currentPageNumbersSet, pageNumbersSets]);
+
 	const filteredPageNumbers = useMemo(() => {
 		return pageNumbers
 			.slice(
@@ -74,29 +84,18 @@ export const Pagination = ({
 			));
 	}, [currentPageNumbersSet, displayedPage, pageNumbers, setDisplayedPage]);
 
-	console.log("pagination render");
-
 	return (
 		<div className="page-selector-bar">
 			<div
 				data-disabled={currentPageNumbersSet === 0 ? true : false}
-				onClick={() =>
-					setCurrentPageNumbersSet(
-						currentPageNumbersSet > 0
-							? currentPageNumbersSet - 1
-							: currentPageNumbersSet
-					)
-				}
+				onClick={setPreviousPageNumbersSet}
 				className="pagination-set-controller backward-controller page-selector-icon"
 			>
 				{"<<"}
 			</div>
 			{currentPageNumbersSet > 0 && (
 				<>
-					<div
-						onClick={(e) => updatePageNumbersSets(e)}
-						className="page-selector-icon"
-					>
+					<div onClick={updatePageNumbersSets} className="page-selector-icon">
 						1
 					</div>
 					<div data-disabled="true" className="page-selector-icon">
@@ -111,10 +110,7 @@ export const Pagination = ({
 					<div data-disabled="true" className="page-selector-icon ">
 						...
 					</div>
-					<div
-						onClick={(e) => updatePageNumbersSets(e)}
-						className="page-selector-icon"
-					>
+					<div onClick={updatePageNumbersSets} className="page-selector-icon">
 						{pageNumbers.length}
 					</div>
 				</>
@@ -123,13 +119,7 @@ export const Pagination = ({
 				data-disabled={
 					currentPageNumbersSet === pageNumbersSets - 1 ? true : false
 				}
-				onClick={() =>
-					setCurrentPageNumbersSet(
-						currentPageNumbersSet < pageNumbersSets - 1
-							? currentPageNumbersSet + 1
-							: currentPageNumbersSet
-					)
-				}
+				onClick={setNextPageNumbersSet}
 				className="pagination-set-controller forward-controller page-selector-icon"
 			>
 				{" "}

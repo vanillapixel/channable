@@ -7,7 +7,7 @@
   width: 30rem;
   max-height: 70rem;
   height: 70rem;
-  overflow-y: scroll;
+  overflow-y: auto;
   background: #282630;
 }
 

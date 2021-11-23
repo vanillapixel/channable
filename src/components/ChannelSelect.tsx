@@ -41,8 +41,6 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 		setDisplayedPage(0);
 	}, [channelsList, filters]);
 
-	console.log("component loaded");
-
 	useEffect(() => {
 		filterChannelsList();
 	}, [filterChannelsList, filters]);
