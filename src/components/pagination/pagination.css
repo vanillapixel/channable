@@ -12,7 +12,7 @@
   width: 24px;
   height: 24px;
   text-align: center;
-  color: white;
+  color: var(--primary-text-color);
   font-size: 1.5rem;
   line-height: 2.5rem;
   cursor: pointer;

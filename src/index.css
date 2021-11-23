@@ -5,6 +5,15 @@
 	--accent-color-1: hsl(198deg 85% 46%);
 	--accent-color-2: hsl(46deg 96% 54%);
 	--accent-color-3: hsl(329deg 78% 55%);
+	--primary-text-color: rgb(240, 240, 240);
+	--secondary-text-color: rgb(49, 49, 49);
+	--primary-background-color: hsl(231deg 10% 14%);
+	--secondary-background-color: hsl(252deg 12% 17%);
+	--card-background-color: linear-gradient(
+		116.014deg,
+		#273034 21.573%,
+		#2a3135 80.242%
+	);
 }
 
 html {
@@ -17,7 +26,7 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	background: hsl(231deg 10% 14%);
+	background: var(--primary-background-color);
 	min-height: 100vh;
 }
 body::-webkit-scrollbar {
@@ -30,7 +39,7 @@ body::-webkit-scrollbar-thumb {
 }
 h2 {
 	font-size: 2.5rem;
-	color: white;
+	color: var(--primary-text-color);
 }
 
 * {

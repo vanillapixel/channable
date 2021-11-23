@@ -31,3 +31,9 @@ yarn run start
 - **Loading icon during the typing** in the search term filter (and API call if remote), returning an error if the loading times out or fails
 - **Reset button** to remove all selected channels from the selected channels side pane _(confirmation popup to prevent undesired user's missclicks)_
 - **Confirmation button** the selected channels to proceed _(bottom side of the "selected channels" pane)_
+- **Color scheme easily customizable** via css variables. I chose a dark theme to save my eyes during the development.
+
+Light color scheme - 1
+![White color scheme - 1](https://i.imgur.com/PubNB39.png)
+Light color scheme - 2
+![Light color scheme - 2](https://i.imgur.com/LVcdEqG.png)

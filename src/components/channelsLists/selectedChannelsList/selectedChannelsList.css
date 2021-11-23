@@ -1,14 +1,13 @@
 .selected-channels-list {
   display: flex;
   flex-direction: column;
-  color: white;
+  color: var(--primary-text-color);
   margin: 2rem 0;
-  gap: 10px;
   width: 30rem;
   max-height: 70rem;
   height: 70rem;
   overflow-y: auto;
-  background: #282630;
+  background: var(--secondary-background-color);
 }
 
 .selected-channels-list .selected-channels-title-container {
@@ -27,11 +26,11 @@
   cursor: default;
   padding: 2rem;
   font-size: 3rem;
-  background-color: #282630;
+  background-color: var(--primary-background-color);
 }
 
 .selected-channels-list .selected-channels-title-container .icon:hover {
-  background-color: #282630;
+  background-color: var(--primary-background-color);
 }
 
 .selected-channels-list::-webkit-scrollbar {
@@ -54,14 +53,14 @@
   align-items: center;
 }
 
-.selected-channels-list .selected-channel:nth-child(even) {
+.selected-channels-list .selected-channel:nth-child(odd) {
   background: #4646465c;
 }
 
 .selected-channels-list .selected-channel span {
   font-size: 1.5rem;
   padding: 0 1rem;
-  color: white;
+  color: var(--primary-text-color);
 }
 
 .selected-channels-list .logo-container {
@@ -80,7 +79,7 @@
   height: 24px;
   border: 1px solid var(--accent-color-3);
   text-align: center;
-  color: white;
+  color: var(--primary-text-color);
   font-size: 1.5rem;
   line-height: 2.5rem;
   transform: scale(0.6);

@@ -1,14 +1,13 @@
 .selected-channels-list {
 	display: flex;
 	flex-direction: column;
-	color: white;
+	color: var(--primary-text-color);
 	margin: 2rem 0;
-	gap: 10px;
 	width: 30rem;
 	max-height: 70rem;
 	height: 70rem;
 	overflow-y: auto;
-	background: rgb(40, 38, 48);
+	background: var(--secondary-background-color);
 	.selected-channels-title-container {
 		display: flex;
 		align-items: center;
@@ -22,10 +21,10 @@
 			cursor: default;
 			padding: 2rem;
 			font-size: 3rem;
-			background-color: rgb(40, 38, 48);
+			background-color: var(--primary-background-color);
 
 			&:hover {
-				background-color: rgb(40, 38, 48);
+				background-color: var(--primary-background-color);
 			}
 		}
 	}
@@ -46,13 +45,13 @@
 		max-height: 5rem;
 		justify-content: space-between;
 		align-items: center;
-		&:nth-child(even) {
+		&:nth-child(odd) {
 			background: #4646465c;
 		}
 		span {
 			font-size: 1.5rem;
 			padding: 0 1rem;
-			color: white;
+			color: var(--primary-text-color);
 		}
 	}
 
@@ -70,7 +69,7 @@
 		height: 24px;
 		border: 1px solid var(--accent-color-3);
 		text-align: center;
-		color: white;
+		color: var(--primary-text-color);
 		font-size: 1.5rem;
 		line-height: 2.5rem;
 		transform: scale(0.6);
