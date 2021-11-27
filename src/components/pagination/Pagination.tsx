@@ -75,8 +75,8 @@ export const Pagination = ({
 					onClick={() => setDisplayedPage(pageNumber)}
 					className={
 						displayedPage === pageNumber
-							? "page-selector-icon page-selector-active"
-							: "page-selector-icon"
+							? "page-selector-icon page-selector- box"
+							: "page-selector-icon box"
 					}
 				>
 					{pageNumber + 1}
@@ -89,16 +89,19 @@ export const Pagination = ({
 			<div
 				data-disabled={currentPageNumbersSet === 0 ? true : false}
 				onClick={setPreviousPageNumbersSet}
-				className="pagination-set-controller backward-controller page-selector-icon"
+				className="pagination-set-controller backward-controller page-selector-icon box"
 			>
 				{"<<"}
 			</div>
 			{currentPageNumbersSet > 0 && (
 				<>
-					<div onClick={updatePageNumbersSets} className="page-selector-icon">
+					<div
+						onClick={updatePageNumbersSets}
+						className="page-selector-icon box"
+					>
 						1
 					</div>
-					<div data-disabled="true" className="page-selector-icon">
+					<div data-disabled="true" className="page-selector-icon box">
 						...
 					</div>
 				</>
@@ -107,10 +110,13 @@ export const Pagination = ({
 
 			{currentPageNumbersSet < pageNumbersSets - 1 && (
 				<>
-					<div data-disabled="true" className="page-selector-icon ">
+					<div data-disabled="true" className="page-selector-icon box ">
 						...
 					</div>
-					<div onClick={updatePageNumbersSets} className="page-selector-icon">
+					<div
+						onClick={updatePageNumbersSets}
+						className="page-selector-icon box"
+					>
 						{pageNumbers.length}
 					</div>
 				</>
@@ -120,9 +126,8 @@ export const Pagination = ({
 					currentPageNumbersSet === pageNumbersSets - 1 ? true : false
 				}
 				onClick={setNextPageNumbersSet}
-				className="pagination-set-controller forward-controller page-selector-icon"
+				className="pagination-set-controller forward-controller page-selector-icon box"
 			>
-				{" "}
 				{">>"}
 			</div>
 		</div>

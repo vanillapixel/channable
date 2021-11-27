@@ -33,6 +33,8 @@ yarn run start
 - **Confirmation button** the selected channels to proceed _(bottom side of the "selected channels" pane)_
 - **Color scheme easily customizable** via css variables. I chose a dark theme to save my eyes during the development.
 
+Light color scheme - Neumorph
+![Light color scheme - 2](https://i.imgur.com/t2t9uI7.png)
 Light color scheme - 1
 ![White color scheme - 1](https://i.imgur.com/PubNB39.png)
 Light color scheme - 2

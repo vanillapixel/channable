@@ -145,7 +145,7 @@ export const countries = {
 	py: "Paraguay",
 	qa: "Qatar",
 	ro: "Romania",
-	rs: "Serbia",
+	rs: "Custom",
 	ru: "Russian Federation",
 	rw: "Rwanda",
 	sa: "Saudi Arabia",

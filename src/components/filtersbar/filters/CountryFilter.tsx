@@ -2,6 +2,7 @@ import { useMemo, ChangeEventHandler } from "react";
 
 import { channelsData } from "../../../data/channelsData";
 import { countries } from "../../../data/countries";
+import { FlatBox, Tab, Label } from "../../../ui/stitches.config";
 
 type Countries = {
 	[key: string]: string;
@@ -33,20 +34,29 @@ export const CountryFilter = ({
 	}, []);
 
 	return (
-		<select
-			className="filter-option"
-			name="country options"
-			value={selectedCountry}
-			onChange={updateSelectedCountryFilter}
-		>
-			<option value="all">All countries</option>
-			{countriesList.map((country: string, id) => (
-				<>
-					<option key={id} value={country}>
-						{countriesFullNames[country.toLowerCase()]}
-					</option>
-				</>
-			))}
-		</select>
+		<FlatBox inputField>
+			<Label
+				accent={
+					selectedCountry.toLowerCase() !== "all countries" ? true : false
+				}
+				htmlFor="search-term"
+			>
+				Country:
+			</Label>
+			<select
+				name="country options"
+				value={selectedCountry}
+				onChange={updateSelectedCountryFilter}
+			>
+				<option value="all countries">All countries</option>
+				{countriesList.map((country: string, id) => (
+					<>
+						<option key={id} value={country}>
+							{countriesFullNames[country.toLowerCase()]}
+						</option>
+					</>
+				))}
+			</select>
+		</FlatBox>
 	);
 };

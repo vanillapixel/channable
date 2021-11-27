@@ -4,6 +4,8 @@ import { FiltersBar } from "./filtersBar/FiltersBar";
 import { ChannelsLists } from "./channelsLists/ChannelsLists";
 import { Pagination } from "./pagination/Pagination";
 
+import { Box } from "./../ui/stitches.config";
+
 interface Channel {
 	key: string;
 	label: string;
@@ -23,7 +25,7 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 
 	const [filters, setFilters] = useState({
 		searchTerm: "",
-		selectedCountry: "all",
+		selectedCountry: "all countries",
 	});
 
 	// OPTIONAL isFavourite -> star icon grey false default - filled yellow if true
@@ -31,9 +33,14 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 	const filterChannelsList = useCallback(() => {
 		const { searchTerm, selectedCountry } = filters;
 		const newFilteredChannelsList = channelsList.filter((channel) => {
-			const { country, key } = channel;
-			if (selectedCountry === "all" && searchTerm === "") return channel;
-			if (searchTerm !== "" && key.includes(searchTerm)) return channel;
+			const { country, label } = channel;
+			if (selectedCountry === "all countries" && searchTerm === "")
+				return channel;
+			if (
+				searchTerm !== "" &&
+				label.toLowerCase().includes(searchTerm.toLowerCase())
+			)
+				return channel;
 			if (country === selectedCountry) return channel;
 		});
 
@@ -46,7 +53,7 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 	}, [filterChannelsList, filters]);
 
 	return (
-		<>
+		<Box boxShadow="none" size="medium">
 			<FiltersBar filters={filters} setFilters={setFilters} />
 			<ChannelsLists
 				maxRows={MAX_ROWS}
@@ -62,6 +69,6 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 				setDisplayedPage={setDisplayedPage}
 				displayedPage={displayedPage}
 			/>
-		</>
+		</Box>
 	);
 };

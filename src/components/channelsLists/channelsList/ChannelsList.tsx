@@ -2,6 +2,8 @@ import { useMemo } from "react";
 
 import { ChannelCard } from "./channelCard/ChannelCard";
 
+import { Grid } from "../../../ui/stitches.config";
+
 interface ChannelsListProps {
 	displayedChannels: {
 		key: string;
@@ -47,12 +49,18 @@ export const ChannelsList = ({
 		]
 	);
 	return (
-		<div className="channels-list">
+		<Grid
+			css={{
+				gridTemplateColumns: `repeat(${maxColumns}, 1fr)`,
+				gridTemplateRows: `repeat(${maxRows}, 1fr)`,
+				gap: ".5rem",
+			}}
+		>
 			{slicedChannels.length > 0 ? (
 				slicedChannels
 			) : (
 				<span className="no-results-warning">No results matched</span>
 			)}
-		</div>
+		</Grid>
 	);
 };

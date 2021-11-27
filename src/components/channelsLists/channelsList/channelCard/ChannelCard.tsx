@@ -1,8 +1,15 @@
 import { useCallback } from "react";
-import "./channelCard.css";
 
-import { StarIcon } from "../../../../data/Icons";
+import { StarIcon } from "../../../../ui/Icons";
 import { SelectChannelButton } from "./SelectChannelButton";
+
+import {
+	Box,
+	FlatBox,
+	Text,
+	Image,
+	ImageContainer,
+} from "../../../../ui/stitches.config";
 
 interface ChannelCardProps {
 	channel: {
@@ -32,31 +39,33 @@ export const ChannelCard = ({
 		[selectedChannels, setSelectedChannels]
 	);
 	return (
-		<div key={channel.key} className="channel-card">
-			<div className="card-details">
-				<span className="channel-name">{channel.label}</span>
-				<StarIcon className="icon" />
-			</div>
-			<div className="channel-banner-container">
-				<img
-					className="channel-banner-image"
+		<Box size="medium" margin="small" key={channel.key}>
+			<FlatBox justifyContent="spaceBetween" flexDirection="row">
+				<FlatBox justifyContent="spaceBetween" flexDirection="row">
+					<Text padding="small" fontSize="medium">
+						{channel.label}
+					</Text>
+					<ImageContainer small>
+						<Image
+							src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
+							alt={`${channel.country}-flag.png`}
+						/>
+					</ImageContainer>
+				</FlatBox>
+			</FlatBox>
+			<ImageContainer>
+				<Image
 					src="../imgs/logo-placeholder.png"
 					alt={channel.label + "logo"}
 				/>
-			</div>
-			<div className="card-details">
-				<div className="flag">
-					<img
-						src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
-						alt=""
-					/>
-				</div>
+			</ImageContainer>
+			<FlatBox alignItems="end">
 				<SelectChannelButton
 					selectedChannels={selectedChannels}
 					channelLabel={channel.label}
 					toggleSelectedChannel={toggleSelectedChannel}
 				/>
-			</div>
-		</div>
+			</FlatBox>
+		</Box>
 	);
 };

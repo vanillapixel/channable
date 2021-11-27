@@ -3,9 +3,9 @@ import { useState, useCallback, useEffect, ChangeEvent } from "react";
 import { CountryFilter } from "./filters/CountryFilter";
 import { SearchTermFilter } from "./filters/SearchTermFilter";
 
-import useDebounce from "../../customHooks/useDebounce";
+import { Box, Text, FlatBox } from "../../ui/stitches.config";
 
-import "./filtersBar.css";
+import useDebounce from "../../customHooks/useDebounce";
 
 interface FiltersBarProps {
 	filters: { searchTerm: string; selectedCountry: string };
@@ -22,13 +22,13 @@ export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 	);
 
 	const updateSearchTermFilter = () => {
-		setFilters({ searchTerm: searchTerm, selectedCountry: "all" });
-		setSelectedCountry("all");
+		setFilters({ searchTerm: searchTerm, selectedCountry: "all countries" });
+		setSelectedCountry("all countries");
 	};
 
 	const updateComponent = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchTermInputValue(e.target.value);
-		setSearchTerm(e.target.value);
+		setSearchTerm(e.target.value.toLowerCase());
 	};
 	const resetSearchTerm = () => {
 		setSearchTermInputValue("");
@@ -49,17 +49,24 @@ export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 	useEffect(() => {}, [filters]);
 
 	return (
-		<div className="filters-container">
-			<p>Filters:</p>
-			<SearchTermFilter
-				resetSearchTerm={resetSearchTerm}
-				searchTermInputValue={searchTermInputValue}
-				updateComponent={updateComponent}
-			/>
-			<CountryFilter
-				selectedCountry={selectedCountry}
-				updateSelectedCountryFilter={updateSelectedCountryFilter}
-			/>
-		</div>
+		<Box
+			justifyContent="flexStart"
+			alignItems="start"
+			padding="medium"
+			css={{ alignSelf: "flex-start" }}
+		>
+			<Text fontSize="medium">Filter by:</Text>
+			<FlatBox padding="small" flexDirection="row">
+				<SearchTermFilter
+					resetSearchTerm={resetSearchTerm}
+					searchTermInputValue={searchTermInputValue}
+					updateComponent={updateComponent}
+				/>
+				<CountryFilter
+					selectedCountry={selectedCountry}
+					updateSelectedCountryFilter={updateSelectedCountryFilter}
+				/>
+			</FlatBox>
+		</Box>
 	);
 };

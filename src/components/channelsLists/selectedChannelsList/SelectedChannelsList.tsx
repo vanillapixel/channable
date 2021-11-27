@@ -1,5 +1,16 @@
 import { useMemo, useCallback } from "react";
-import "./selectedChannelsList.css";
+
+import {
+	Box,
+	FlatBox,
+	Tab,
+	Text,
+	Image,
+	ImageContainer,
+	Button,
+} from "../../../ui/stitches.config";
+
+import { CloseIcon } from "../../../ui/Icons";
 
 interface SelectedListProps {
 	selectedChannels: string[];
@@ -21,32 +32,52 @@ export const SelectedChannelsList = ({
 
 	const selectedChannelCards = useMemo(() => {
 		return selectedChannels.map((channelLabel) => (
-			<div key={channelLabel} className="selected-channel fade-in-vertical">
-				<div className="logo-container">
-					<img className="small-logo" src="../imgs/logo-mini.png" alt="" />
-				</div>
-				<span>{channelLabel}</span>
-				<div
+			<Box
+				justifyContent="spaceBetween"
+				flexDirection="row"
+				margin="small"
+				css={{ width: "90%" }}
+				key={channelLabel}
+			>
+				<FlatBox flexDirection="row" justifyContent="flexStart">
+					<ImageContainer small>
+						<Image src="../imgs/logo-mini.png" alt="" />
+					</ImageContainer>
+					<Text fontSize="medium">{channelLabel}</Text>
+				</FlatBox>
+				<Button
+					padding="small"
+					icon
 					onClick={() => removeSelected(channelLabel)}
-					className="icon remove-icon"
 				>
-					X
-				</div>
-			</div>
+					<CloseIcon />
+				</Button>
+			</Box>
 		));
 	}, [removeSelected, selectedChannels]);
 
 	return (
-		<div className="selected-channels-list">
-			<div className="selected-channels-title-container">
-				<span className="title-container">Selected Channels</span>
-				<span className="icon remove-icon">{selectedChannelCards.length}</span>
-			</div>
+		<Box css={{ overflow: "hidden" }} padding="none" justifyContent="flexStart">
+			<Box
+				size="large"
+				margin="none"
+				css={{ borderRadius: "0", width: "100%", gap: "1rem" }}
+				justifyContent="spaceBetween"
+				flexDirection="row"
+			>
+				<Text title>Selected Channels</Text>
+				<Text title>{selectedChannelCards.length}</Text>
+			</Box>
 			{selectedChannelCards.length > 0 ? (
-				selectedChannelCards
+				<FlatBox justifyContent="spaceBetween" css={{ height: "64rem" }}>
+					<FlatBox justifyContent="flexStart" css={{ overflowY: "auto" }}>
+						<>{selectedChannelCards}</>
+					</FlatBox>
+					<Button size="medium">Confirm</Button>
+				</FlatBox>
 			) : (
 				<span className="no-results-warning">No channels selected</span>
 			)}
-		</div>
+		</Box>
 	);
 };
