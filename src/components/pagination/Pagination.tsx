@@ -1,5 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import "./pagination.css";
+
+import { Box, Button } from "../../ui/stitches.config";
+
+import { NextIcon, PreviousIcon } from "../../ui/Icons";
 
 interface PaginationProps {
 	totalResults: number;
@@ -70,66 +73,60 @@ export const Pagination = ({
 				(currentPageNumbersSet + 1) * PAGE_NUMBERS_LIMIT
 			)
 			.map((pageNumber, id) => (
-				<div
-					key={id}
-					onClick={() => setDisplayedPage(pageNumber)}
-					className={
-						displayedPage === pageNumber
-							? "page-selector-icon page-selector- box"
-							: "page-selector-icon box"
-					}
-				>
-					{pageNumber + 1}
-				</div>
+				<Box margin="none" padding="none">
+					<Button
+						icon
+						key={id}
+						onClick={() => setDisplayedPage(pageNumber)}
+						isActive={displayedPage === pageNumber}
+					>
+						{pageNumber + 1}
+					</Button>
+				</Box>
 			));
 	}, [currentPageNumbersSet, displayedPage, pageNumbers, setDisplayedPage]);
 
 	return (
-		<div className="page-selector-bar">
-			<div
-				data-disabled={currentPageNumbersSet === 0 ? true : false}
+		<Box css={{ minWidth: "50rem", borderRadius: "50px" }} flexDirection="row">
+			<Button
+				icon
+				isEnabled={currentPageNumbersSet !== 0}
 				onClick={setPreviousPageNumbersSet}
-				className="pagination-set-controller backward-controller page-selector-icon box"
 			>
-				{"<<"}
-			</div>
+				<PreviousIcon></PreviousIcon>
+			</Button>
 			{currentPageNumbersSet > 0 && (
 				<>
-					<div
-						onClick={updatePageNumbersSets}
-						className="page-selector-icon box"
-					>
-						1
-					</div>
-					<div data-disabled="true" className="page-selector-icon box">
+					<Box margin="none" padding="none">
+						<Button icon onClick={updatePageNumbersSets}>
+							1
+						</Button>
+					</Box>
+					<Button icon isEnabled={false}>
 						...
-					</div>
+					</Button>
 				</>
 			)}
 			{filteredPageNumbers}
-
 			{currentPageNumbersSet < pageNumbersSets - 1 && (
 				<>
-					<div data-disabled="true" className="page-selector-icon box ">
+					<Button icon isEnabled={false}>
 						...
-					</div>
-					<div
-						onClick={updatePageNumbersSets}
-						className="page-selector-icon box"
-					>
-						{pageNumbers.length}
-					</div>
+					</Button>
+					<Box margin="none" padding="none">
+						<Button icon onClick={updatePageNumbersSets}>
+							{pageNumbers.length}
+						</Button>
+					</Box>
 				</>
 			)}
-			<div
-				data-disabled={
-					currentPageNumbersSet === pageNumbersSets - 1 ? true : false
-				}
+			<Button
+				icon
+				isEnabled={currentPageNumbersSet < pageNumbersSets - 1 ? true : false}
 				onClick={setNextPageNumbersSet}
-				className="pagination-set-controller forward-controller page-selector-icon box"
 			>
-				{">>"}
-			</div>
-		</div>
+				<NextIcon></NextIcon>
+			</Button>
+		</Box>
 	);
 };

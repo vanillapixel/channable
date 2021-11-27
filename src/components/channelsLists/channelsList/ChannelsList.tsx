@@ -54,6 +54,8 @@ export const ChannelsList = ({
 				gridTemplateColumns: `repeat(${maxColumns}, 1fr)`,
 				gridTemplateRows: `repeat(${maxRows}, 1fr)`,
 				gap: ".5rem",
+				minHeight: "63rem",
+				width: "100%",
 			}}
 		>
 			{slicedChannels.length > 0 ? (

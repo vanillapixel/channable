@@ -21,19 +21,24 @@ export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 		filters.selectedCountry
 	);
 
-	const updateSearchTermFilter = () => {
+	const updateSearchTermFilter = useCallback(() => {
 		setFilters({ searchTerm: searchTerm, selectedCountry: "all countries" });
 		setSelectedCountry("all countries");
-	};
+	}, [searchTerm, setFilters]);
 
 	const updateComponent = (e: ChangeEvent<HTMLInputElement>) => {
 		setSearchTermInputValue(e.target.value);
 		setSearchTerm(e.target.value.toLowerCase());
 	};
-	const resetSearchTerm = () => {
+	const resetSearchTerm = useCallback(() => {
 		setSearchTermInputValue("");
 		setSearchTerm("");
-	};
+	}, []);
+	const resetSelectedCountry = useCallback(() => {
+		setSelectedCountry("all countries");
+		setFilters({ searchTerm: "", selectedCountry: "all countries" });
+	}, [setFilters]);
+
 	useDebounce(() => updateSearchTermFilter(), 400, [searchTerm]);
 
 	const updateSelectedCountryFilter = useCallback(
@@ -56,7 +61,7 @@ export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 			css={{ alignSelf: "flex-start" }}
 		>
 			<Text fontSize="medium">Filter by:</Text>
-			<FlatBox padding="small" flexDirection="row">
+			<FlatBox gap="large" padding="small" flexDirection="row">
 				<SearchTermFilter
 					resetSearchTerm={resetSearchTerm}
 					searchTermInputValue={searchTermInputValue}
@@ -64,6 +69,7 @@ export const FiltersBar = ({ filters, setFilters }: FiltersBarProps) => {
 				/>
 				<CountryFilter
 					selectedCountry={selectedCountry}
+					resetSelectedCountry={resetSelectedCountry}
 					updateSelectedCountryFilter={updateSelectedCountryFilter}
 				/>
 			</FlatBox>

@@ -3,7 +3,7 @@ import { useState } from "react";
 import { ChannelsList } from "./channelsList/ChannelsList";
 import { SelectedChannelsList } from "./selectedChannelsList/SelectedChannelsList";
 
-import { Grid, FlatBox } from "../../ui/stitches.config";
+import { Grid, Box, FlatBox, Text } from "../../ui/stitches.config";
 
 interface ChannelsListProps {
 	displayedChannels: {
@@ -27,21 +27,25 @@ export const ChannelsLists = ({
 	return (
 		<Grid
 			css={{
-				height: "70rem",
+				minHeight: "70rem",
 				gridTemplateColumns: "5fr 1fr",
 				gap: "1rem",
 				width: "100%",
 			}}
 		>
-			{/* <span className="title-container">Select your channels</span> */}
-			<ChannelsList
-				displayedChannels={displayedChannels}
-				maxRows={maxRows}
-				maxColumns={maxColumns}
-				displayedPage={displayedPage}
-				selectedChannels={selectedChannels}
-				setSelectedChannels={setSelectedChannels}
-			/>
+			<Box justifyContent="spaceAround" gap="small">
+				<FlatBox padding="small" width="auto" css={{ alignSelf: "start" }}>
+					<Text title>Select your channels: </Text>
+				</FlatBox>
+				<ChannelsList
+					displayedChannels={displayedChannels}
+					maxRows={maxRows}
+					maxColumns={maxColumns}
+					displayedPage={displayedPage}
+					selectedChannels={selectedChannels}
+					setSelectedChannels={setSelectedChannels}
+				/>
+			</Box>
 			<SelectedChannelsList
 				selectedChannels={selectedChannels}
 				setSelectedChannels={setSelectedChannels}

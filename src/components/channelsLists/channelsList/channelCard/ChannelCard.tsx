@@ -1,6 +1,5 @@
 import { useCallback } from "react";
 
-import { StarIcon } from "../../../../ui/Icons";
 import { SelectChannelButton } from "./SelectChannelButton";
 
 import {
@@ -39,22 +38,30 @@ export const ChannelCard = ({
 		[selectedChannels, setSelectedChannels]
 	);
 	return (
-		<Box size="medium" margin="small" key={channel.key}>
+		<Box
+			justifyContent="spaceBetween"
+			size="medium"
+			margin="small"
+			key={channel.key}
+		>
 			<FlatBox justifyContent="spaceBetween" flexDirection="row">
 				<FlatBox justifyContent="spaceBetween" flexDirection="row">
 					<Text padding="small" fontSize="medium">
 						{channel.label}
 					</Text>
-					<ImageContainer small>
-						<Image
-							src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
-							alt={`${channel.country}-flag.png`}
-						/>
-					</ImageContainer>
+					{channel.country.toLowerCase() !== "rs" && (
+						<ImageContainer small>
+							<Image
+								src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
+								alt={`${channel.country}-flag.png`}
+							/>
+						</ImageContainer>
+					)}
 				</FlatBox>
 			</FlatBox>
 			<ImageContainer>
 				<Image
+					css={{ padding: "1rem" }}
 					src="../imgs/logo-placeholder.png"
 					alt={channel.label + "logo"}
 				/>

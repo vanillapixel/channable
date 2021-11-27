@@ -4,7 +4,7 @@ import { FiltersBar } from "./filtersBar/FiltersBar";
 import { ChannelsLists } from "./channelsLists/ChannelsLists";
 import { Pagination } from "./pagination/Pagination";
 
-import { Box } from "./../ui/stitches.config";
+import { FlatBox } from "./../ui/stitches.config";
 
 interface Channel {
 	key: string;
@@ -53,7 +53,7 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 	}, [filterChannelsList, filters]);
 
 	return (
-		<Box boxShadow="none" size="medium">
+		<FlatBox gap="medium" css={{ width: "90%" }}>
 			<FiltersBar filters={filters} setFilters={setFilters} />
 			<ChannelsLists
 				maxRows={MAX_ROWS}
@@ -69,6 +69,6 @@ export const ChannelSelect = ({ channelsList }: ChannelsSelectProps) => {
 				setDisplayedPage={setDisplayedPage}
 				displayedPage={displayedPage}
 			/>
-		</Box>
+		</FlatBox>
 	);
 };

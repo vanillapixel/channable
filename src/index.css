@@ -11,6 +11,7 @@ body {
 	background: var(--colors-color1);
 	min-height: 100vh;
 }
+
 *::-webkit-scrollbar {
 	width: 8px;
 	background-color: var(--colors-gray75);
@@ -34,7 +35,8 @@ select {
 	overflow: hidden;
 	border: none;
 	outline: none;
-	border: 1px solid var(--colors-white);
+	border: 1px solid var(--colors-color3);
+	background: var(--colors-color3);
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
 		"Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
 		sans-serif;
@@ -58,18 +60,20 @@ select {
 	animation: fade-in 1s;
 }
 .fade-in-vertical {
-	animation: fade-in-v-ext 1s;
+	animation: fade-in-v- 1s;
 }
 
-@keyframes fade-in {
+@keyframes fade-in-h {
 	0% {
+		max-width: 0px;
 		opacity: 0;
 	}
 	100% {
+		max-width: 0px;
 		opacity: 1;
 	}
 }
-@keyframes fade-in-v-ext {
+@keyframes fade-in-v {
 	0% {
 		max-height: 0px;
 		opacity: 0;

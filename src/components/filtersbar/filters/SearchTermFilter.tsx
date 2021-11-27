@@ -18,7 +18,7 @@ export const SearchTermFilter = ({
 	return (
 		<FlatBox
 			inputField
-			css={{ minWidth: "40rem" }}
+			css={{ minWidth: "35rem" }}
 			overflow="hidden"
 			gap="none"
 		>

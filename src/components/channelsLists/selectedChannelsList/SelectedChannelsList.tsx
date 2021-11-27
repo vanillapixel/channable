@@ -56,12 +56,21 @@ export const SelectedChannelsList = ({
 		));
 	}, [removeSelected, selectedChannels]);
 
+	const confirm = useCallback(() => {
+		alert("Maybe next version :)");
+	}, []);
+
 	return (
-		<Box css={{ overflow: "hidden" }} padding="none" justifyContent="flexStart">
+		<Box
+			css={{ overflow: "hidden" }}
+			padding="none"
+			margin="small"
+			justifyContent="flexStart"
+			gap="medium"
+		>
 			<Box
 				size="large"
-				margin="none"
-				css={{ borderRadius: "0", width: "100%", gap: "1rem" }}
+				css={{ borderRadius: "0", width: "100%", margin: "0" }}
 				justifyContent="spaceBetween"
 				flexDirection="row"
 			>
@@ -69,11 +78,13 @@ export const SelectedChannelsList = ({
 				<Text title>{selectedChannelCards.length}</Text>
 			</Box>
 			{selectedChannelCards.length > 0 ? (
-				<FlatBox justifyContent="spaceBetween" css={{ height: "64rem" }}>
+				<FlatBox justifyContent="spaceBetween" css={{ height: "62rem" }}>
 					<FlatBox justifyContent="flexStart" css={{ overflowY: "auto" }}>
 						<>{selectedChannelCards}</>
 					</FlatBox>
-					<Button size="medium">Confirm</Button>
+					<Button onClick={confirm} cta size="medium">
+						Confirm
+					</Button>
 				</FlatBox>
 			) : (
 				<span className="no-results-warning">No channels selected</span>

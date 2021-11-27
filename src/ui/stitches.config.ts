@@ -1,10 +1,5 @@
 import { createStitches, globalCss, PropertyValue } from "@stitches/react";
 
-interface GridTemplate {
-	columns: PropertyValue<"gridTemplateColumns">;
-	rows: PropertyValue<"gridTemplateRows">;
-}
-
 export const { styled } = createStitches({
 	theme: {
 		colors: {
@@ -13,16 +8,18 @@ export const { styled } = createStitches({
 			gray25: "hsl(0deg 0% 25%)",
 			gray50: "hsl(0deg 0% 50%)",
 			gray75: "hsl(0deg 0% 75%)",
-			white: "hsl(0deg 0% 100%)",
+			color3: "hsl(0deg 0% 100%)",
 			accentColor1: "hsl(0deg 88% 66%)",
 		},
 		fontSizes: {
+			xsmall: "1rem",
 			small: "1.2rem",
 			medium: "1.6rem",
 			large: "2rem",
 		},
 		space: {
 			none: "0",
+			xsmall: ".2rem",
 			small: ".5rem",
 			medium: "1rem",
 			large: "2rem",
@@ -66,6 +63,12 @@ export const Box = styled("div", {
 	gap: ".5rem",
 	variants: {
 		size: {
+			xsmall: {
+				fontSize: "$xsmall",
+				margin: "$xsmall",
+				padding: "$xsmall",
+				gap: "$xsmall",
+			},
 			small: {
 				fontSize: "$small",
 				margin: "$small",
@@ -87,6 +90,26 @@ export const Box = styled("div", {
 		},
 		gap: {
 			none: { gap: "$none" },
+			small: { gap: "$small" },
+			medium: { gap: "$medium" },
+			large: { gap: "$large" },
+		},
+		fontSize: {
+			small: { fontSize: "$small" },
+			medium: { fontSize: "$medium" },
+			large: { fontSize: "$large" },
+		},
+		padding: {
+			none: { padding: "$none" },
+			small: { padding: "$small" },
+			medium: { padding: "$medium" },
+			large: { padding: "$large" },
+		},
+		margin: {
+			none: { margin: "$none" },
+			small: { margin: "$small" },
+			medium: { margin: "$medium" },
+			large: { margin: "$large" },
 		},
 		boxShadow: {
 			none: {
@@ -106,6 +129,9 @@ export const Box = styled("div", {
 			spaceBetween: {
 				justifyContent: "space-between",
 			},
+			spaceAround: {
+				justifyContent: "space-around",
+			},
 		},
 		alignItems: {
 			center: {
@@ -121,31 +147,14 @@ export const Box = styled("div", {
 		flexDirection: {
 			row: { flexDirection: "row" },
 		},
-		fontSize: {
-			small: { fontSize: "$small" },
-			medium: { fontSize: "$medium" },
-			large: { fontSize: "$large" },
-		},
-		padding: {
-			none: { padding: "$none" },
-			small: { padding: "$small" },
-			medium: { padding: "$medium" },
-			large: { padding: "$large" },
-		},
-		margin: {
-			none: { margin: "$none" },
-			small: { margin: "$small" },
-			medium: { margin: "$medium" },
-			large: { margin: "$large" },
-		},
 		isActive: {
-			false: {
-				backgroundColor: "$color1",
-				color: "$color2",
-			},
 			true: {
 				backgroundColor: "$accentColor1",
 				color: "$color1",
+			},
+			false: {
+				backgroundColor: "$color1",
+				color: "$color2",
 			},
 		},
 		overflow: {
@@ -167,7 +176,7 @@ export const FlatBox = styled(Box, {
 		},
 		inputField: {
 			true: {
-				backgroundColor: "$white",
+				backgroundColor: "$color3",
 				gap: "none",
 				overflow: "hidden",
 				flexDirection: "row",
@@ -184,43 +193,64 @@ export const Button = styled(Box, {
 		color: "$color1",
 	},
 	variants: {
-		isClickable: {
-			false: {
-				stroke: "$gray50",
-				boxShadow: "none",
+		cta: {
+			true: {
+				border: "1px solid $accentColor1",
+				color: "$accentColor1",
+				"&:hover": {
+					backgroundColor: "$accentColor1",
+					color: "$color1",
+					borderColor: "transparent",
+				},
 			},
 		},
-		enabled: {
+		isEnabled: {
 			true: {
 				stroke: "$gray50",
 				boxShadow: "none",
-				"&:hover": {
-					backgroundColor: "$accentColor1",
-					stroke: "$color1",
-				},
 			},
 			false: {
-				true: {
-					cursor: "no-drop",
+				cursor: "no-drop",
+				stroke: "$gray25",
+				boxShadow: "none",
+				opacity: 0.3,
+				"&:hover": {
+					transform: "scale(1)",
+					backgroundColor: "transparent",
 					stroke: "$gray25",
-					boxShadow: "none",
-					"&:hover": {
-						backgroundColor: "$transparent",
-						stroke: "$color1",
-					},
+					color: "$gray25",
 				},
 			},
 		},
 		icon: {
 			true: {
 				stroke: "$gray50",
+				fontSize: "$small",
 				boxShadow: "none",
-				padding: "$small",
+				padding: "$none",
+				margin: "$none",
+				width: "3rem",
+				height: "3rem",
 				"&:hover": {
-					backgroundColor: "$transparent",
-
+					transform: "scale(1.2)",
+					backgroundColor: "transparent",
 					stroke: "$accentColor1",
+					color: "$accentColor1",
 				},
+			},
+		},
+		isActive: {
+			true: {
+				backgroundColor: "$accentColor1",
+				color: "$color1",
+				"&:hover": {
+					backgroundColor: "$accentColor1",
+					color: "$color1",
+				},
+			},
+			false: {
+				backgroundColor: "$color1",
+				color: "$color2",
 			},
 		},
 	},

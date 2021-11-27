@@ -67,3 +67,39 @@ export const StarIcon = (props: any) => (
 		></polygon>
 	</svg>
 );
+
+export const PreviousIcon = (props: any) => (
+	<svg
+		{...props}
+		id="previous-icon"
+		width="20"
+		height="20"
+		viewBox="0 0 20 20"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<polyline
+			fill="none"
+			stroke="inherit"
+			stroke-width="1.03"
+			points="13 16 7 10 13 4"
+		></polyline>
+	</svg>
+);
+
+export const NextIcon = (props: any) => (
+	<svg
+		{...props}
+		id="next-icon"
+		width="20"
+		height="20"
+		viewBox="0 0 20 20"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<polyline
+			fill="none"
+			stroke="inherit"
+			stroke-width="1.03"
+			points="7 4 13 10 7 16"
+		></polyline>
+	</svg>
+);

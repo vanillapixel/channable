@@ -1,8 +1,9 @@
-import { useMemo, ChangeEventHandler } from "react";
+import { useMemo, ChangeEventHandler, MouseEventHandler } from "react";
 
 import { channelsData } from "../../../data/channelsData";
 import { countries } from "../../../data/countries";
-import { FlatBox, Tab, Label } from "../../../ui/stitches.config";
+import { FlatBox, Label, Button } from "../../../ui/stitches.config";
+import { CloseIcon } from "../../../ui/Icons";
 
 type Countries = {
 	[key: string]: string;
@@ -10,12 +11,14 @@ type Countries = {
 
 interface CountryFilterProps {
 	selectedCountry: string;
+	resetSelectedCountry: MouseEventHandler<HTMLDivElement>;
 	updateSelectedCountryFilter: ChangeEventHandler<HTMLSelectElement>;
 }
 const countriesFullNames: Countries = countries;
 
 export const CountryFilter = ({
 	selectedCountry,
+	resetSelectedCountry,
 	updateSelectedCountryFilter,
 }: CountryFilterProps) => {
 	// unique country names (filters out duplicates with new Set) sorted alphabetically
@@ -57,6 +60,11 @@ export const CountryFilter = ({
 					</>
 				))}
 			</select>
+			<Button icon>
+				{selectedCountry !== "all countries" ? (
+					<CloseIcon className="icon" onClick={resetSelectedCountry} />
+				) : null}
+			</Button>
 		</FlatBox>
 	);
 };
