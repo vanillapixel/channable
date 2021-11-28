@@ -1,15 +1,20 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 
-import { Box, Button } from "../../ui/stitches.config";
+import { Box, FlatBox, Button } from "../../ui/stitches.config";
 
-import { NextIcon, PreviousIcon } from "../../ui/Icons";
+import {
+	NextIcon,
+	PreviousIcon,
+	DoubleNextIcon,
+	DoublePreviousIcon,
+} from "../../ui/Icons";
 
 interface PaginationProps {
 	totalResults: number;
 	maxRows: number;
 	maxColumns: number;
-	setDisplayedPage: Function;
-	displayedPage: number;
+	setCurrentPage: Function;
+	currentPage: number;
 }
 
 const PAGE_NUMBERS_LIMIT = 10;
@@ -18,8 +23,8 @@ export const Pagination = ({
 	totalResults,
 	maxRows,
 	maxColumns,
-	setDisplayedPage,
-	displayedPage,
+	setCurrentPage,
+	currentPage,
 }: PaginationProps) => {
 	const [pageNumbers, setPageNumbers] = useState<number[]>([]);
 	const [pageNumbersSets, setPageNumbersSets] = useState<number>(0);
@@ -37,24 +42,30 @@ export const Pagination = ({
 		[]
 	);
 
-	useEffect(() => {
-		const newPageNumbers = getPageNumbers(totalResults, maxRows, maxColumns);
-		const pageNumberSets = Math.ceil(
-			newPageNumbers.length / PAGE_NUMBERS_LIMIT
-		);
-		setPageNumbers(newPageNumbers);
-		setPageNumbersSets(pageNumberSets);
-		setCurrentPageNumbersSet(0);
-	}, [getPageNumbers, maxColumns, maxRows, totalResults]);
-
 	const updatePageNumbersSets = useCallback(
 		(e) => {
 			const newPageNumber = e.target.textContent - 1;
-			setDisplayedPage(newPageNumber);
+			setCurrentPage(newPageNumber);
 			setCurrentPageNumbersSet(Math.floor(newPageNumber / PAGE_NUMBERS_LIMIT));
 		},
-		[setDisplayedPage]
+		[setCurrentPage]
 	);
+
+	const setPreviousPage = useCallback(() => {
+		if (currentPage === 0) return;
+		setCurrentPage(currentPage - 1);
+		setCurrentPageNumbersSet(
+			Math.floor((currentPage - 1) / PAGE_NUMBERS_LIMIT)
+		);
+	}, [currentPage, setCurrentPage]);
+
+	const setNextPage = useCallback(() => {
+		if (currentPage === pageNumbers[pageNumbers.length]) return;
+		setCurrentPage(currentPage + 1);
+		setCurrentPageNumbersSet(
+			Math.floor((currentPage + 1) / PAGE_NUMBERS_LIMIT)
+		);
+	}, [currentPage, pageNumbers, setCurrentPage]);
 
 	const setPreviousPageNumbersSet = useCallback(() => {
 		if (currentPageNumbersSet === 0) return;
@@ -76,67 +87,91 @@ export const Pagination = ({
 				<Box margin="none" padding="none" key={pageNumber}>
 					<Button
 						icon
-						onClick={() => setDisplayedPage(pageNumber)}
-						isActive={displayedPage === pageNumber}
+						onClick={() => setCurrentPage(pageNumber)}
+						isActive={currentPage === pageNumber}
 					>
 						{pageNumber + 1}
 					</Button>
 				</Box>
 			));
-	}, [currentPageNumbersSet, displayedPage, pageNumbers, setDisplayedPage]);
+	}, [currentPageNumbersSet, currentPage, pageNumbers, setCurrentPage]);
+
+	useEffect(() => {
+		const newPageNumbers = getPageNumbers(totalResults, maxRows, maxColumns);
+		const pageNumberSets = Math.ceil(
+			newPageNumbers.length / PAGE_NUMBERS_LIMIT
+		);
+		setPageNumbers(newPageNumbers);
+		setPageNumbersSets(pageNumberSets);
+		setCurrentPageNumbersSet(0);
+	}, [getPageNumbers, maxColumns, maxRows, totalResults]);
 
 	return (
 		<Box
 			gap="medium"
-			css={{ minWidth: "50rem", borderRadius: "50px" }}
+			css={{ minWidth: "68rem", borderRadius: "50px" }}
 			flexDirection="row"
+			justifyContent="spaceBetween"
 		>
 			<Button
 				icon
 				isEnabled={currentPageNumbersSet !== 0}
 				onClick={setPreviousPageNumbersSet}
 			>
+				<DoublePreviousIcon></DoublePreviousIcon>
+			</Button>
+			<Button icon isEnabled={currentPage >= 1} onClick={setPreviousPage}>
 				<PreviousIcon></PreviousIcon>
 			</Button>
-			{currentPageNumbersSet > 0 && (
-				<>
-					<Box margin="none" padding="none">
-						<Button
-							isActive={displayedPage === 0}
-							icon
-							onClick={updatePageNumbersSets}
-						>
-							1
+			<FlatBox flexDirection="row">
+				{currentPageNumbersSet > 0 && (
+					<>
+						<Box margin="none" padding="none">
+							<Button
+								isActive={currentPage === 0}
+								icon
+								onClick={updatePageNumbersSets}
+							>
+								1
+							</Button>
+						</Box>
+						<Button icon isEnabled={false}>
+							...
 						</Button>
-					</Box>
-					<Button icon isEnabled={false}>
-						...
-					</Button>
-				</>
-			)}
-			{filteredPageNumbers}
-			{currentPageNumbersSet < pageNumbersSets - 1 && (
-				<>
-					<Button icon isEnabled={false}>
-						...
-					</Button>
-					<Box margin="none" padding="none">
-						<Button
-							isActive={displayedPage === pageNumbers.length - 1}
-							icon
-							onClick={updatePageNumbersSets}
-						>
-							{pageNumbers.length}
+					</>
+				)}
+				{filteredPageNumbers}
+				{currentPageNumbersSet < pageNumbersSets - 1 && (
+					<>
+						<Button icon isEnabled={false}>
+							...
 						</Button>
-					</Box>
-				</>
-			)}
+						<Box margin="none" padding="none">
+							<Button
+								isActive={currentPage === pageNumbers.length - 1}
+								icon
+								onClick={updatePageNumbersSets}
+							>
+								{pageNumbers.length}
+							</Button>
+						</Box>
+					</>
+				)}
+			</FlatBox>
+
+			<Button
+				icon
+				isEnabled={currentPage < pageNumbers.length - 1 ? true : false}
+				onClick={setNextPage}
+			>
+				<NextIcon></NextIcon>
+			</Button>
 			<Button
 				icon
 				isEnabled={currentPageNumbersSet < pageNumbersSets - 1 ? true : false}
 				onClick={setNextPageNumbersSet}
 			>
-				<NextIcon></NextIcon>
+				<DoubleNextIcon></DoubleNextIcon>
 			</Button>
 		</Box>
 	);

@@ -11,15 +11,15 @@ interface ChannelsListProps {
 		label: string;
 		country: string;
 	}[];
-	displayedPage: number;
+	currentPage: number;
 	maxRows: number;
 	maxColumns: number;
-	setDisplayedPage: Function;
+	setCurrentPage: Function;
 }
 
 export const ChannelsLists = ({
 	displayedChannels,
-	displayedPage,
+	currentPage,
 	maxRows,
 	maxColumns,
 }: ChannelsListProps) => {
@@ -41,7 +41,7 @@ export const ChannelsLists = ({
 					displayedChannels={displayedChannels}
 					maxRows={maxRows}
 					maxColumns={maxColumns}
-					displayedPage={displayedPage}
+					currentPage={currentPage}
 					selectedChannels={selectedChannels}
 					setSelectedChannels={setSelectedChannels}
 				/>

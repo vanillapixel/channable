@@ -12,7 +12,7 @@ interface ChannelsListProps {
 	}[];
 	maxRows: number;
 	maxColumns: number;
-	displayedPage: number;
+	currentPage: number;
 	selectedChannels: string[];
 	setSelectedChannels: Function;
 }
@@ -21,7 +21,7 @@ export const ChannelsList = ({
 	displayedChannels,
 	maxRows,
 	maxColumns,
-	displayedPage,
+	currentPage,
 	selectedChannels,
 	setSelectedChannels,
 }: ChannelsListProps) => {
@@ -29,8 +29,8 @@ export const ChannelsList = ({
 		() =>
 			[...displayedChannels]
 				.slice(
-					displayedPage * maxRows * maxColumns,
-					maxRows * maxColumns * (displayedPage + 1)
+					currentPage * maxRows * maxColumns,
+					maxRows * maxColumns * (currentPage + 1)
 				)
 				.map((channel, id) => (
 					<ChannelCard
@@ -42,7 +42,7 @@ export const ChannelsList = ({
 				)),
 		[
 			displayedChannels,
-			displayedPage,
+			currentPage,
 			maxColumns,
 			maxRows,
 			selectedChannels,

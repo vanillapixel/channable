@@ -25,7 +25,7 @@ export const ChannelSelect = ({
 	customChannelsList,
 }: ChannelsSelectProps) => {
 	const [displayedChannels, setDisplayedChannels] = useState(channelsList);
-	const [displayedPage, setDisplayedPage] = useState(0);
+	const [currentPage, setCurrentPage] = useState(0);
 
 	const [filters, setFilters] = useState({
 		searchTerm: "",
@@ -53,7 +53,7 @@ export const ChannelSelect = ({
 			if (country === selectedCountry && !customCheckboxChecked) return channel;
 		});
 		setDisplayedChannels(newFilteredChannelsList);
-		setDisplayedPage(0);
+		setCurrentPage(0);
 	}, [channelsList, filters]);
 
 	useEffect(() => {
@@ -69,7 +69,7 @@ export const ChannelSelect = ({
 			customCheckboxChecked
 		) {
 			setDisplayedChannels(customChannelsList);
-			setDisplayedPage(0);
+			setCurrentPage(0);
 		}
 	}, [customChannelsList, filterChannelsList, filters]);
 
@@ -79,16 +79,16 @@ export const ChannelSelect = ({
 			<ChannelsLists
 				maxRows={MAX_ROWS}
 				maxColumns={MAX_COLUMNS}
-				displayedPage={displayedPage}
-				setDisplayedPage={setDisplayedPage}
+				currentPage={currentPage}
+				setCurrentPage={setCurrentPage}
 				displayedChannels={displayedChannels}
 			/>
 			<Pagination
 				totalResults={displayedChannels.length}
 				maxRows={MAX_ROWS}
 				maxColumns={MAX_COLUMNS}
-				setDisplayedPage={setDisplayedPage}
-				displayedPage={displayedPage}
+				setCurrentPage={setCurrentPage}
+				currentPage={currentPage}
 			/>
 		</FlatBox>
 	);

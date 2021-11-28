@@ -225,6 +225,7 @@ export const Button = styled(Box, {
 				boxShadow: "none",
 			},
 			false: {
+				pointerEvents: "none",
 				cursor: "no-drop",
 				stroke: "$gray25",
 				boxShadow: "none",

@@ -58,10 +58,8 @@ export const SelectedChannelsList = ({
 	}, [removeSelected, selectedChannels]);
 
 	const confirm = useCallback(() => {
-		alert(
-			"You selected the following channels: " + [...selectedChannels].join(", ")
-		);
-	}, [selectedChannels]);
+		alert("This feature is ONLY available upon hiring the developer :)");
+	}, []);
 
 	return (
 		<Box
