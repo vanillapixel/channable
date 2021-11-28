@@ -4,6 +4,8 @@
 
 ```
 yarn install
+yarn add @stitches/react
+
 ```
 
 ## Run
@@ -29,4 +31,3 @@ yarn run start
 
 - **Favourite channels selection feature**. Clickable star icon to add the channel to the favourites. Favourite channels are displayed first in the list _(ignoring alphabetic sorting)_
 - **Loading icon during the typing** in the search term filter (or API call if remote), returning an error if the loading times out or fails
-- **Pagination with soft and hard previous/next buttons**. The soft previous/next button selects the very previous/next page. Hard previous/next buttons select the previous/next set of pages (refactor using useReducer)

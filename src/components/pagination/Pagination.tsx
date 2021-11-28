@@ -28,7 +28,6 @@ export const Pagination = ({
 }: PaginationProps) => {
 	const [pageNumbers, setPageNumbers] = useState<number[]>([]);
 	const [pageNumbersSets, setPageNumbersSets] = useState<number>(0);
-
 	const [currentPageNumbersSet, setCurrentPageNumbersSet] = useState<number>(0);
 
 	// it fills an array with the range of numbers of the available pages
@@ -109,7 +108,7 @@ export const Pagination = ({
 	return (
 		<Box
 			gap="medium"
-			css={{ minWidth: "68rem", borderRadius: "50px" }}
+			css={{ minWidth: "65rem", borderRadius: "50px" }}
 			flexDirection="row"
 			justifyContent="spaceBetween"
 		>
