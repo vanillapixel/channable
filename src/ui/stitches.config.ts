@@ -221,7 +221,7 @@ export const Button = styled(Box, {
 		},
 		isEnabled: {
 			true: {
-				stroke: "$gray50",
+				stroke: "$gray25",
 				boxShadow: "none",
 			},
 			false: {
@@ -240,7 +240,7 @@ export const Button = styled(Box, {
 		},
 		icon: {
 			true: {
-				stroke: "$gray50",
+				stroke: "$gray25",
 				fontSize: "$small",
 				boxShadow: "none",
 				padding: "$none",

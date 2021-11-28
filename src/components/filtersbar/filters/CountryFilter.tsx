@@ -58,10 +58,8 @@ export const CountryFilter = ({
 					</option>
 				))}
 			</select>
-			<Button icon>
-				{selectedCountry !== "all countries" ? (
-					<CloseIcon className="icon" onClick={resetSelectedCountry} />
-				) : null}
+			<Button icon isEnabled={selectedCountry !== "all countries"}>
+				<CloseIcon className="icon" onClick={resetSelectedCountry} />
 			</Button>
 		</FlatBox>
 	);

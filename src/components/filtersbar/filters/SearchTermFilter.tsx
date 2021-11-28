@@ -37,11 +37,9 @@ export const SearchTermFilter = ({
 				placeholder="Search for channels, e.g. Google"
 				onChange={updateSearchTermComponent}
 			/>
-			{searchTermInputValue && (
-				<Button icon>
-					<CloseIcon className="icon" onClick={resetSearchTerm} />
-				</Button>
-			)}
+			<Button icon isEnabled={searchTermInputValue !== ""}>
+				<CloseIcon className="icon" onClick={resetSearchTerm} />
+			</Button>
 		</FlatBox>
 	);
 };
