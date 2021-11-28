@@ -6,13 +6,13 @@ import { Button, Label, FlatBox } from "../../../ui/stitches.config";
 
 interface SearchTermFilterProps {
 	searchTermInputValue: string;
-	updateComponent: ChangeEventHandler<HTMLInputElement>;
+	updateSearchTermComponent: ChangeEventHandler<HTMLInputElement>;
 	resetSearchTerm: MouseEventHandler<HTMLDivElement>;
 }
 
 export const SearchTermFilter = ({
 	searchTermInputValue,
-	updateComponent,
+	updateSearchTermComponent,
 	resetSearchTerm,
 }: SearchTermFilterProps) => {
 	return (
@@ -35,7 +35,7 @@ export const SearchTermFilter = ({
 				name="term"
 				value={searchTermInputValue}
 				placeholder="Search for channels, e.g. Google"
-				onChange={updateComponent}
+				onChange={updateSearchTermComponent}
 			/>
 			{searchTermInputValue && (
 				<Button icon>

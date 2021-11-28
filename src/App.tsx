@@ -31,9 +31,27 @@ function App() {
 				return 0;
 			});
 	}, []);
+
+	const customChannelsList = useMemo(() => {
+		return channelsData
+			.filter((channel) => channel.label.toLowerCase().includes("custom"))
+			.sort((a, b) => {
+				if (a.label < b.label) {
+					return -1;
+				}
+				if (a.label > b.label) {
+					return 1;
+				}
+				return 0;
+			});
+	}, []);
+
 	return (
 		<Box boxShadow="none">
-			<ChannelSelect channelsList={channelsList} />
+			<ChannelSelect
+				customChannelsList={customChannelsList}
+				channelsList={channelsList}
+			/>
 		</Box>
 	);
 }

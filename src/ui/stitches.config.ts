@@ -1,4 +1,4 @@
-import { createStitches, globalCss, PropertyValue } from "@stitches/react";
+import { createStitches, globalCss, keyframes } from "@stitches/react";
 
 export const { styled } = createStitches({
 	theme: {
@@ -33,6 +33,15 @@ export const { styled } = createStitches({
 			auto: "auto",
 			"100%": "100%",
 		},
+	},
+});
+
+export const FadeInVertical = keyframes({
+	"0%": {
+		opacity: 0,
+	},
+	"100%": {
+		opacity: 1,
 	},
 });
 
@@ -162,6 +171,11 @@ export const Box = styled("div", {
 				overflow: "hidden",
 			},
 		},
+		fadeInVertical: {
+			true: {
+				animation: `${FadeInVertical} 1s `,
+			},
+		},
 	},
 });
 
@@ -180,6 +194,7 @@ export const FlatBox = styled(Box, {
 				gap: "none",
 				overflow: "hidden",
 				flexDirection: "row",
+				width: "auto",
 			},
 		},
 	},
@@ -290,6 +305,11 @@ export const ImageContainer = styled("div", {
 		small: { true: { width: "24px" } },
 		medium: { true: { width: "36px" } },
 		large: { true: { width: "48px" } },
+		fadeInVertical: {
+			true: {
+				animation: `${FadeInVertical} 1s`,
+			},
+		},
 	},
 });
 
@@ -322,6 +342,11 @@ export const Text = styled("p", {
 			small: { margin: "$small" },
 			medium: { margin: "$medium" },
 			large: { margin: "$large" },
+		},
+		fadeInVertical: {
+			true: {
+				animation: `${FadeInVertical} 1s`,
+			},
 		},
 	},
 });

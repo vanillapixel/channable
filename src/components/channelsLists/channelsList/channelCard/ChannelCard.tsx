@@ -46,11 +46,11 @@ export const ChannelCard = ({
 		>
 			<FlatBox justifyContent="spaceBetween" flexDirection="row">
 				<FlatBox justifyContent="spaceBetween" flexDirection="row">
-					<Text padding="small" fontSize="medium">
+					<Text fadeInVertical padding="small" fontSize="medium">
 						{channel.label}
 					</Text>
 					{channel.country.toLowerCase() !== "rs" && (
-						<ImageContainer small>
+						<ImageContainer fadeInVertical small>
 							<Image
 								src={`../imgs/icons/flags/24x24/${channel.country.toLowerCase()}.png`}
 								alt={`${channel.country}-flag.png`}
@@ -59,7 +59,7 @@ export const ChannelCard = ({
 					)}
 				</FlatBox>
 			</FlatBox>
-			<ImageContainer>
+			<ImageContainer fadeInVertical>
 				<Image
 					css={{ padding: "1rem" }}
 					src="../imgs/logo-placeholder.png"

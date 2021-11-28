@@ -3,11 +3,11 @@ import { useMemo, useCallback } from "react";
 import {
 	Box,
 	FlatBox,
-	Tab,
 	Text,
 	Image,
 	ImageContainer,
 	Button,
+	Tab,
 } from "../../../ui/stitches.config";
 
 import { CloseIcon } from "../../../ui/Icons";
@@ -33,6 +33,7 @@ export const SelectedChannelsList = ({
 	const selectedChannelCards = useMemo(() => {
 		return selectedChannels.map((channelLabel) => (
 			<Box
+				fadeInVertical
 				justifyContent="spaceBetween"
 				flexDirection="row"
 				margin="small"
@@ -57,30 +58,36 @@ export const SelectedChannelsList = ({
 	}, [removeSelected, selectedChannels]);
 
 	const confirm = useCallback(() => {
-		alert("Maybe next version :)");
-	}, []);
+		alert(
+			"You selected the following channels: " + [...selectedChannels].join(", ")
+		);
+	}, [selectedChannels]);
 
 	return (
 		<Box
 			css={{ overflow: "hidden" }}
 			padding="none"
-			margin="small"
+			margin="none"
 			justifyContent="flexStart"
 			gap="medium"
 		>
-			<Box
+			<Tab
 				size="large"
 				css={{ borderRadius: "0", width: "100%", margin: "0" }}
 				justifyContent="spaceBetween"
 				flexDirection="row"
 			>
-				<Text title>Selected Channels</Text>
-				<Text title>{selectedChannelCards.length}</Text>
-			</Box>
+				<Text color="white" title>
+					Selected Channels
+				</Text>
+				<Text color="white" title>
+					{selectedChannelCards.length}
+				</Text>
+			</Tab>
 			{selectedChannelCards.length > 0 ? (
 				<FlatBox justifyContent="spaceBetween" css={{ height: "62rem" }}>
 					<FlatBox justifyContent="flexStart" css={{ overflowY: "auto" }}>
-						<>{selectedChannelCards}</>
+						{selectedChannelCards}
 					</FlatBox>
 					<Button onClick={confirm} cta size="medium">
 						Confirm

@@ -21,19 +21,19 @@ export const CountryFilter = ({
 	resetSelectedCountry,
 	updateSelectedCountryFilter,
 }: CountryFilterProps) => {
-	// unique country names (filters out duplicates with new Set) sorted alphabetically
+	// unique countries names sorted alphabetically not including custom channels (labelled as 'rs')
 	let countriesList = useMemo(() => {
-		return [
-			...new Set([...channelsData].map((channel) => channel.country)),
-		].sort((a, b) => {
-			if (a < b) {
-				return -1;
-			}
-			if (a > b) {
-				return 1;
-			}
-			return 0;
-		});
+		return [...new Set([...channelsData].map((channel) => channel.country))]
+			.sort((a, b) => {
+				if (a < b) {
+					return -1;
+				}
+				if (a > b) {
+					return 1;
+				}
+				return 0;
+			})
+			.filter((x) => !x.toLowerCase().includes("rs"));
 	}, []);
 
 	return (
@@ -52,12 +52,10 @@ export const CountryFilter = ({
 				onChange={updateSelectedCountryFilter}
 			>
 				<option value="all countries">All countries</option>
-				{countriesList.map((country: string, id) => (
-					<>
-						<option key={id} value={country}>
-							{countriesFullNames[country.toLowerCase()]}
-						</option>
-					</>
+				{countriesList.map((country: string) => (
+					<option key={country} value={country}>
+						{countriesFullNames[country.toLowerCase()]}
+					</option>
 				))}
 			</select>
 			<Button icon>

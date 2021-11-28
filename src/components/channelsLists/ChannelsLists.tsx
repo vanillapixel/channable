@@ -27,7 +27,7 @@ export const ChannelsLists = ({
 	return (
 		<Grid
 			css={{
-				minHeight: "70rem",
+				minHeight: "73rem",
 				gridTemplateColumns: "5fr 1fr",
 				gap: "1rem",
 				width: "100%",

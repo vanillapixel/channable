@@ -32,8 +32,9 @@ export const ChannelsList = ({
 					displayedPage * maxRows * maxColumns,
 					maxRows * maxColumns * (displayedPage + 1)
 				)
-				.map((channel) => (
+				.map((channel, id) => (
 					<ChannelCard
+						key={channel.label + id}
 						channel={channel}
 						selectedChannels={selectedChannels}
 						setSelectedChannels={setSelectedChannels}

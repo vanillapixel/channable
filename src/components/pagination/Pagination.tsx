@@ -72,11 +72,10 @@ export const Pagination = ({
 				currentPageNumbersSet * PAGE_NUMBERS_LIMIT,
 				(currentPageNumbersSet + 1) * PAGE_NUMBERS_LIMIT
 			)
-			.map((pageNumber, id) => (
-				<Box margin="none" padding="none">
+			.map((pageNumber) => (
+				<Box margin="none" padding="none" key={pageNumber}>
 					<Button
 						icon
-						key={id}
 						onClick={() => setDisplayedPage(pageNumber)}
 						isActive={displayedPage === pageNumber}
 					>
@@ -87,7 +86,11 @@ export const Pagination = ({
 	}, [currentPageNumbersSet, displayedPage, pageNumbers, setDisplayedPage]);
 
 	return (
-		<Box css={{ minWidth: "50rem", borderRadius: "50px" }} flexDirection="row">
+		<Box
+			gap="medium"
+			css={{ minWidth: "50rem", borderRadius: "50px" }}
+			flexDirection="row"
+		>
 			<Button
 				icon
 				isEnabled={currentPageNumbersSet !== 0}
@@ -98,7 +101,11 @@ export const Pagination = ({
 			{currentPageNumbersSet > 0 && (
 				<>
 					<Box margin="none" padding="none">
-						<Button icon onClick={updatePageNumbersSets}>
+						<Button
+							isActive={displayedPage === 0}
+							icon
+							onClick={updatePageNumbersSets}
+						>
 							1
 						</Button>
 					</Box>
@@ -114,7 +121,11 @@ export const Pagination = ({
 						...
 					</Button>
 					<Box margin="none" padding="none">
-						<Button icon onClick={updatePageNumbersSets}>
+						<Button
+							isActive={displayedPage === pageNumbers.length - 1}
+							icon
+							onClick={updatePageNumbersSets}
+						>
 							{pageNumbers.length}
 						</Button>
 					</Box>
