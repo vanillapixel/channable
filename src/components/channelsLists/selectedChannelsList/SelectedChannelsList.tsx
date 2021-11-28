@@ -85,7 +85,7 @@ export const SelectedChannelsList = ({
 				</Text>
 			</Tab>
 			{selectedChannelCards.length > 0 ? (
-				<FlatBox justifyContent="spaceBetween" css={{ height: "62rem" }}>
+				<FlatBox justifyContent="spaceBetween" css={{ height: "65rem" }}>
 					<FlatBox justifyContent="flexStart" css={{ overflowY: "auto" }}>
 						{selectedChannelCards}
 					</FlatBox>
