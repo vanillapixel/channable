@@ -112,11 +112,13 @@ export const Pagination = ({
 			justifyContent="spaceBetween"
 		>
 			<Controller
+				id={"double-revious-icon"}
 				icon={<DoublePreviousIcon />}
 				onClick={setPreviousPageNumbersSet}
 				isDisabled={!(currentPageNumbersSet !== 0)}
 			/>
 			<Controller
+				id={"previous-icon"}
 				icon={<PreviousIcon />}
 				onClick={setPreviousPage}
 				isDisabled={!(currentPage >= 1)}
@@ -153,11 +155,13 @@ export const Pagination = ({
 			</FlatBox>
 
 			<Controller
+				id={"next-icon"}
 				icon={<NextIcon />}
 				onClick={setNextPage}
 				isDisabled={!(currentPage < pageNumbers.length - 1) ? true : false}
 			/>
 			<Controller
+				id={"double-next-icon"}
 				icon={<DoubleNextIcon />}
 				onClick={setNextPageNumbersSet}
 				isDisabled={

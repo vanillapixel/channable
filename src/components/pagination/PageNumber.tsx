@@ -15,7 +15,12 @@ export const PageNumber = ({
 }: PageNumberProps) => {
 	return (
 		<Box margin="none" padding="none">
-			<Button isActive={isActive} icon onClick={onClick}>
+			<Button
+				id={`page-number-${pageNumber}`}
+				isActive={isActive}
+				icon
+				onClick={onClick}
+			>
 				{pageNumber}
 			</Button>
 		</Box>
