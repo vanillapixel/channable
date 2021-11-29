@@ -200,16 +200,40 @@ export const FlatBox = styled(Box, {
 	},
 });
 
-export const Button = styled(Box, {
+export const Button = styled("button", {
 	cursor: "pointer",
 	padding: "$medium",
+	borderRadius: "10px",
+	boxShadow: "$neumorph",
+	transition: ".3s",
+	display: "flex",
+	flexDirection: "column",
+	justifyContent: "center",
+	alignItems: "center",
+	gap: ".5rem",
+	border: "0px solid transparent",
 	"&:hover": {
 		backgroundColor: "$accentColor1",
 		color: "$color1",
 	},
+	"&:disabled": {
+		pointerEvents: "none",
+		cursor: "no-drop",
+		stroke: "$gray25",
+		color: "$gray25",
+		boxShadow: "none",
+		opacity: 0.3,
+		"&:hover": {
+			transform: "scale(1)",
+			backgroundColor: "transparent",
+			stroke: "$gray25",
+			color: "$gray25",
+		},
+	},
 	variants: {
 		cta: {
 			true: {
+				backgroundColor: "transparent",
 				border: "1px solid $accentColor1",
 				color: "$accentColor1",
 				"&:hover": {
@@ -219,25 +243,7 @@ export const Button = styled(Box, {
 				},
 			},
 		},
-		isEnabled: {
-			true: {
-				stroke: "$gray25",
-				boxShadow: "none",
-			},
-			false: {
-				pointerEvents: "none",
-				cursor: "no-drop",
-				stroke: "$gray25",
-				boxShadow: "none",
-				opacity: 0.3,
-				"&:hover": {
-					transform: "scale(1)",
-					backgroundColor: "transparent",
-					stroke: "$gray25",
-					color: "$gray25",
-				},
-			},
-		},
+
 		icon: {
 			true: {
 				stroke: "$gray25",
@@ -247,8 +253,8 @@ export const Button = styled(Box, {
 				margin: "$none",
 				width: "3rem",
 				height: "3rem",
+				backgroundColor: "transparent",
 				"&:hover": {
-					transform: "scale(1.2)",
 					backgroundColor: "transparent",
 					stroke: "$accentColor1",
 					color: "$accentColor1",
@@ -268,6 +274,55 @@ export const Button = styled(Box, {
 				backgroundColor: "$color1",
 				color: "$color2",
 			},
+		},
+		padding: {
+			none: { padding: "$none" },
+			small: { padding: "$small" },
+			medium: { padding: "$medium" },
+			large: { padding: "$large" },
+		},
+		margin: {
+			none: { margin: "$none" },
+			small: { margin: "$small" },
+			medium: { margin: "$medium" },
+			large: { margin: "$large" },
+		},
+		boxShadow: {
+			none: {
+				boxShadow: "$none",
+			},
+		},
+		size: {
+			xsmall: {
+				fontSize: "$xsmall",
+				margin: "$xsmall",
+				padding: "$xsmall",
+				gap: "$xsmall",
+			},
+			small: {
+				fontSize: "$small",
+				margin: "$small",
+				padding: "$small",
+				gap: "$small",
+			},
+			medium: {
+				fontSize: "$medium",
+				margin: "$medium",
+				padding: "$medium",
+				gap: "$medium",
+			},
+			large: {
+				fontSize: "$large",
+				margin: "$large",
+				padding: "$large",
+				gap: "$large",
+			},
+		},
+		gap: {
+			none: { gap: "$none" },
+			small: { gap: "$small" },
+			medium: { gap: "$medium" },
+			large: { gap: "$large" },
 		},
 	},
 });

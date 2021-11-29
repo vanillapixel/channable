@@ -2,6 +2,9 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 
 import { Box, FlatBox, Button } from "../../ui/stitches.config";
 
+import { Controller } from "./Controller";
+import { PageNumber } from "./PageNumber";
+
 import {
 	NextIcon,
 	PreviousIcon,
@@ -83,15 +86,11 @@ export const Pagination = ({
 				(currentPageNumbersSet + 1) * PAGE_NUMBERS_LIMIT
 			)
 			.map((pageNumber) => (
-				<Box margin="none" padding="none" key={pageNumber}>
-					<Button
-						icon
-						onClick={() => setCurrentPage(pageNumber)}
-						isActive={currentPage === pageNumber}
-					>
-						{pageNumber + 1}
-					</Button>
-				</Box>
+				<PageNumber
+					pageNumber={pageNumber + 1}
+					onClick={() => setCurrentPage(pageNumber)}
+					isActive={currentPage === pageNumber}
+				/>
 			));
 	}, [currentPageNumbersSet, currentPage, pageNumbers, setCurrentPage]);
 
@@ -112,66 +111,59 @@ export const Pagination = ({
 			flexDirection="row"
 			justifyContent="spaceBetween"
 		>
-			<Button
-				icon
-				isEnabled={currentPageNumbersSet !== 0}
+			<Controller
+				icon={<DoublePreviousIcon />}
 				onClick={setPreviousPageNumbersSet}
-			>
-				<DoublePreviousIcon></DoublePreviousIcon>
-			</Button>
-			<Button icon isEnabled={currentPage >= 1} onClick={setPreviousPage}>
-				<PreviousIcon></PreviousIcon>
-			</Button>
+				isDisabled={!(currentPageNumbersSet !== 0)}
+			/>
+			<Controller
+				icon={<PreviousIcon />}
+				onClick={setPreviousPage}
+				isDisabled={!(currentPage >= 1)}
+			/>
+
 			<FlatBox flexDirection="row">
 				{currentPageNumbersSet > 0 && (
 					<>
-						<Box margin="none" padding="none">
-							<Button
-								isActive={currentPage === 0}
-								icon
-								onClick={updatePageNumbersSets}
-							>
-								1
-							</Button>
-						</Box>
-						<Button icon isEnabled={false}>
+						<PageNumber
+							pageNumber={1}
+							onClick={updatePageNumbersSets}
+							isActive={currentPage === 0}
+						/>
+						<Button icon disabled>
 							...
 						</Button>
 					</>
 				)}
+
 				{filteredPageNumbers}
+
 				{currentPageNumbersSet < pageNumbersSets - 1 && (
 					<>
-						<Button icon isEnabled={false}>
+						<Button icon disabled>
 							...
 						</Button>
-						<Box margin="none" padding="none">
-							<Button
-								isActive={currentPage === pageNumbers.length - 1}
-								icon
-								onClick={updatePageNumbersSets}
-							>
-								{pageNumbers.length}
-							</Button>
-						</Box>
+						<PageNumber
+							pageNumber={pageNumbers.length}
+							onClick={updatePageNumbersSets}
+							isActive={currentPage === pageNumbers.length - 1}
+						/>
 					</>
 				)}
 			</FlatBox>
 
-			<Button
-				icon
-				isEnabled={currentPage < pageNumbers.length - 1 ? true : false}
+			<Controller
+				icon={<NextIcon />}
 				onClick={setNextPage}
-			>
-				<NextIcon></NextIcon>
-			</Button>
-			<Button
-				icon
-				isEnabled={currentPageNumbersSet < pageNumbersSets - 1 ? true : false}
+				isDisabled={!(currentPage < pageNumbers.length - 1) ? true : false}
+			/>
+			<Controller
+				icon={<DoubleNextIcon />}
 				onClick={setNextPageNumbersSet}
-			>
-				<DoubleNextIcon></DoubleNextIcon>
-			</Button>
+				isDisabled={
+					!(currentPageNumbersSet < pageNumbersSets - 1) ? true : false
+				}
+			/>
 		</Box>
 	);
 };

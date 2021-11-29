@@ -6,7 +6,7 @@ import { CheckIcon } from "../../../ui/Icons";
 
 interface CustomCheckboxFilterProps {
 	customCheckboxChecked: boolean;
-	updateCustomCheckBox: MouseEventHandler<HTMLDivElement>;
+	updateCustomCheckBox: MouseEventHandler<HTMLButtonElement>;
 }
 
 export const CustomCheckboxFilter = ({

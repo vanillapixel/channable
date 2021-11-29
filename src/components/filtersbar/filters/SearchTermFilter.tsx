@@ -37,7 +37,7 @@ export const SearchTermFilter = ({
 				placeholder="Search for channels, e.g. Google"
 				onChange={updateSearchTermComponent}
 			/>
-			<Button icon isEnabled={searchTermInputValue !== ""}>
+			<Button icon disabled={!(searchTermInputValue !== "")}>
 				<CloseIcon className="icon" onClick={resetSearchTerm} />
 			</Button>
 		</FlatBox>
