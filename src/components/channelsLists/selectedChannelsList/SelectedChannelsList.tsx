@@ -1,14 +1,8 @@
 import { useMemo, useCallback } from "react";
 
-import {
-	Box,
-	FlatBox,
-	Text,
-	Image,
-	ImageContainer,
-	Button,
-	Tab,
-} from "../../../ui/stitches.config";
+import { Box, FlatBox, Text, Button, Tab } from "../../../ui/stitches.config";
+
+import { SelectedChannel } from "./SelectedChannel";
 
 import { CloseIcon } from "../../../ui/Icons";
 
@@ -30,34 +24,20 @@ export const SelectedChannelsList = ({
 		[selectedChannels, setSelectedChannels]
 	);
 
+	const removeAllSelected = () => {
+		setSelectedChannels([]);
+	};
+
 	const selectedChannelCards = useMemo(() => {
 		return selectedChannels.map((channelLabel) => (
-			<Box
-				fadeInVertical
-				justifyContent="spaceBetween"
-				flexDirection="row"
-				margin="small"
-				css={{ width: "90%" }}
-				key={channelLabel}
-			>
-				<FlatBox flexDirection="row" justifyContent="flexStart">
-					<ImageContainer small>
-						<Image src="../imgs/logo-mini.png" alt="" />
-					</ImageContainer>
-					<Text fontSize="medium">{channelLabel}</Text>
-				</FlatBox>
-				<Button
-					padding="small"
-					icon
-					onClick={() => removeSelected(channelLabel)}
-				>
-					<CloseIcon />
-				</Button>
-			</Box>
+			<SelectedChannel
+				channelLabel={channelLabel}
+				removeSelected={removeSelected}
+			/>
 		));
 	}, [removeSelected, selectedChannels]);
 
-	const confirm = useCallback(() => {
+	const confirmSelection = useCallback(() => {
 		alert("This feature is ONLY available upon hiring the developer :)");
 	}, []);
 
@@ -81,19 +61,36 @@ export const SelectedChannelsList = ({
 				<Text color="white" title>
 					{selectedChannelCards.length}
 				</Text>
+				<Button
+					disabled={selectedChannelCards.length === 0}
+					padding="small"
+					icon
+					onClick={removeAllSelected}
+				>
+					<CloseIcon />
+				</Button>
 			</Tab>
-			{selectedChannelCards.length > 0 ? (
-				<FlatBox justifyContent="spaceBetween" css={{ height: "65rem" }}>
-					<FlatBox justifyContent="flexStart" css={{ overflowY: "auto" }}>
-						{selectedChannelCards}
-					</FlatBox>
-					<Button onClick={confirm} cta size="medium">
-						Confirm
-					</Button>
+			<FlatBox>
+				<FlatBox justifyContent="spaceBetween" css={{ height: "62rem" }}>
+					{selectedChannelCards.length > 0 ? (
+						<FlatBox justifyContent="flexStart" css={{ overflowY: "auto" }}>
+							{selectedChannelCards}
+						</FlatBox>
+					) : (
+						<span className="no-results-warning-wrapper">
+							No channels selected
+						</span>
+					)}
 				</FlatBox>
-			) : (
-				<span className="no-results-warning">No channels selected</span>
-			)}
+				<Button
+					disabled={!selectedChannelCards.length}
+					onClick={confirmSelection}
+					cta
+					size="medium"
+				>
+					Confirm
+				</Button>
+			</FlatBox>
 		</Box>
 	);
 };

@@ -1,20 +1,39 @@
-import { ChangeEventHandler, MouseEventHandler } from "react";
+import { useEffect, useState, useCallback } from "react";
+
+import useDebounce from "../../../customHooks/useDebounce";
 
 import { CloseIcon } from "../../../ui/Icons";
+import { ACTIONS } from "../../ChannelSelect";
 
 import { Button, Label, FlatBox } from "../../../ui/stitches.config";
 
 interface SearchTermFilterProps {
-	searchTermInputValue: string;
-	updateSearchTermComponent: ChangeEventHandler<HTMLInputElement>;
-	resetSearchTerm: MouseEventHandler<HTMLDivElement>;
+	searchTerm: string;
+	updateFilters: any;
 }
 
 export const SearchTermFilter = ({
-	searchTermInputValue,
-	updateSearchTermComponent,
-	resetSearchTerm,
+	searchTerm,
+	updateFilters,
 }: SearchTermFilterProps) => {
+	const [newSearchTerm, setNewSearchTerm] = useState(searchTerm);
+	const debouncedValue = useDebounce(newSearchTerm, 300);
+
+	const updateSearchTerm = useCallback(() => {
+		updateFilters({
+			type: ACTIONS.SET_SEARCH_TERM,
+			payload: debouncedValue,
+		});
+	}, [debouncedValue, updateFilters]);
+
+	useEffect(() => {
+		updateSearchTerm();
+	}, [debouncedValue, updateSearchTerm]);
+
+	const resetsearchTerm = () => {
+		updateFilters({ type: ACTIONS.RESET_SEARCH_TERM });
+	};
+
 	return (
 		<FlatBox
 			inputField
@@ -22,10 +41,7 @@ export const SearchTermFilter = ({
 			overflow="hidden"
 			gap="none"
 		>
-			<Label
-				accent={searchTermInputValue !== "" ? true : false}
-				htmlFor="search-term"
-			>
+			<Label accent={searchTerm !== "" ? true : false} htmlFor="search-term">
 				Channel name:
 			</Label>
 			<input
@@ -33,12 +49,12 @@ export const SearchTermFilter = ({
 				type="text"
 				id="search-term"
 				name="term"
-				value={searchTermInputValue}
+				value={newSearchTerm}
 				placeholder="Search for channels, e.g. Google"
-				onChange={updateSearchTermComponent}
+				onChange={(e) => setNewSearchTerm(e.target.value)}
 			/>
-			<Button icon disabled={!(searchTermInputValue !== "")}>
-				<CloseIcon className="icon" onClick={resetSearchTerm} />
+			<Button icon disabled={!(searchTerm !== "")}>
+				<CloseIcon className="icon" onClick={resetsearchTerm} />
 			</Button>
 		</FlatBox>
 	);

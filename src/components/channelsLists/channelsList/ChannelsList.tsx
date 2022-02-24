@@ -3,6 +3,7 @@ import { useMemo } from "react";
 import { ChannelCard } from "./channelCard/ChannelCard";
 
 import { Grid } from "../../../ui/stitches.config";
+import { countries } from "../../../data/countries";
 
 interface ChannelsListProps {
 	displayedChannels: {
@@ -10,12 +11,20 @@ interface ChannelsListProps {
 		label: string;
 		country: string;
 	}[];
+	filters: {
+		searchTerm: string;
+		selectedCountry: string;
+		customCheckboxChecked: boolean;
+	};
 	maxRows: number;
 	maxColumns: number;
 	currentPage: number;
 	selectedChannels: string[];
 	setSelectedChannels: Function;
 }
+type Countries = {
+	[key: string]: string;
+};
 
 export const ChannelsList = ({
 	displayedChannels,
@@ -24,7 +33,9 @@ export const ChannelsList = ({
 	currentPage,
 	selectedChannels,
 	setSelectedChannels,
+	filters,
 }: ChannelsListProps) => {
+	const countriesFullNames: Countries = countries;
 	const slicedChannels = useMemo(
 		() =>
 			[...displayedChannels]
@@ -62,7 +73,26 @@ export const ChannelsList = ({
 			{slicedChannels.length > 0 ? (
 				slicedChannels
 			) : (
-				<span className="no-results-warning">No results matched</span>
+				<div className="no-results-warning-wrapper">
+					<div>
+						<p>No matched results for:</p>
+					</div>
+					<div>
+						<b>
+							<span>{filters.searchTerm}</span>
+						</b>
+						{filters.selectedCountry && (
+							<>
+								<span>in </span>
+								<b>
+									<span>
+										{countriesFullNames[filters.selectedCountry.toLowerCase()]}
+									</span>
+								</b>
+							</>
+						)}
+					</div>
+				</div>
 			)}
 		</Grid>
 	);

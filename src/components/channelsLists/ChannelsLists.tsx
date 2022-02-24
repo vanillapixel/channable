@@ -4,6 +4,7 @@ import { ChannelsList } from "./channelsList/ChannelsList";
 import { SelectedChannelsList } from "./selectedChannelsList/SelectedChannelsList";
 
 import { Grid, Box, FlatBox, Text } from "../../ui/stitches.config";
+import { Pagination } from "../pagination/Pagination";
 
 interface ChannelsListProps {
 	displayedChannels: {
@@ -11,6 +12,11 @@ interface ChannelsListProps {
 		label: string;
 		country: string;
 	}[];
+	filters: {
+		searchTerm: string;
+		selectedCountry: string;
+		customCheckboxChecked: boolean;
+	};
 	currentPage: number;
 	maxRows: number;
 	maxColumns: number;
@@ -22,6 +28,8 @@ export const ChannelsLists = ({
 	currentPage,
 	maxRows,
 	maxColumns,
+	filters,
+	setCurrentPage,
 }: ChannelsListProps) => {
 	const [selectedChannels, setSelectedChannels] = useState<string[]>([]);
 	return (
@@ -44,6 +52,14 @@ export const ChannelsLists = ({
 					currentPage={currentPage}
 					selectedChannels={selectedChannels}
 					setSelectedChannels={setSelectedChannels}
+					filters={filters}
+				/>
+				<Pagination
+					totalResults={displayedChannels.length}
+					maxRows={maxRows}
+					maxColumns={maxColumns}
+					currentPage={currentPage}
+					setCurrentPage={setCurrentPage}
 				/>
 			</Box>
 			<SelectedChannelsList

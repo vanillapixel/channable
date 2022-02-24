@@ -43,18 +43,23 @@ select {
 		sans-serif;
 }
 
-.no-results-warning {
+.no-results-warning-wrapper {
 	position: absolute;
-	display: inline-block;
-	text-align: center;
-	width: 70%;
-	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 2rem;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	color: #3a3a3a;
-	font-size: 1.4rem !important;
 	font-weight: 200;
+}
+.no-results-warning-wrapper * {
+	font-size: 2rem !important;
+	display: flex;
+	gap: 1rem;
 }
 
 .fade-in {

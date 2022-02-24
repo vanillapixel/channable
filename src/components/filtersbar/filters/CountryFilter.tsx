@@ -1,9 +1,11 @@
-import { useMemo, ChangeEventHandler, MouseEventHandler } from "react";
+import { useMemo } from "react";
 
 import { channelsData } from "../../../data/channelsData";
 import { countries } from "../../../data/countries";
 import { FlatBox, Label, Button } from "../../../ui/stitches.config";
 import { CloseIcon } from "../../../ui/Icons";
+
+import { ACTIONS } from "../../ChannelSelect";
 
 type Countries = {
 	[key: string]: string;
@@ -11,15 +13,13 @@ type Countries = {
 
 interface CountryFilterProps {
 	selectedCountry: string;
-	resetSelectedCountry: MouseEventHandler<HTMLDivElement>;
-	updateSelectedCountryFilter: ChangeEventHandler<HTMLSelectElement>;
+	updateFilters: any;
 }
 const countriesFullNames: Countries = countries;
 
 export const CountryFilter = ({
+	updateFilters,
 	selectedCountry,
-	resetSelectedCountry,
-	updateSelectedCountryFilter,
 }: CountryFilterProps) => {
 	// unique countries names sorted alphabetically not including custom channels (labelled as 'rs')
 	let countriesList = useMemo(() => {
@@ -36,12 +36,20 @@ export const CountryFilter = ({
 			.filter((x) => !x.toLowerCase().includes("rs"));
 	}, []);
 
+	const updateCountry = (e: any) => {
+		updateFilters({
+			type: ACTIONS.SET_SELECTED_COUNTRY,
+			payload: e.target.value,
+		});
+	};
+	const resetCountry = () => {
+		updateFilters({ type: ACTIONS.RESET_SELECTED_COUNTRY });
+	};
+
 	return (
 		<FlatBox inputField>
 			<Label
-				accent={
-					selectedCountry.toLowerCase() !== "all countries" ? true : false
-				}
+				accent={selectedCountry !== "" ? true : false}
 				htmlFor="search-term"
 			>
 				Country:
@@ -49,17 +57,17 @@ export const CountryFilter = ({
 			<select
 				name="country options"
 				value={selectedCountry}
-				onChange={updateSelectedCountryFilter}
+				onChange={updateCountry}
 			>
-				<option value="all countries">All countries</option>
+				<option value="">All countries</option>
 				{countriesList.map((country: string) => (
 					<option key={country} value={country}>
 						{countriesFullNames[country.toLowerCase()]}
 					</option>
 				))}
 			</select>
-			<Button icon disabled={!(selectedCountry !== "all countries")}>
-				<CloseIcon className="icon" onClick={resetSelectedCountry} />
+			<Button icon disabled={!(selectedCountry !== "")}>
+				<CloseIcon className="icon" onClick={resetCountry} />
 			</Button>
 		</FlatBox>
 	);

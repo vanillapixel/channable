@@ -1,8 +1,7 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useReducer, Reducer } from "react";
 
 import { FiltersBar } from "./filtersBar/FiltersBar";
 import { ChannelsLists } from "./channelsLists/ChannelsLists";
-import { Pagination } from "./pagination/Pagination";
 
 import { FlatBox } from "./../ui/stitches.config";
 
@@ -16,6 +15,18 @@ interface ChannelsSelectProps {
 	channelsList: Channel[];
 	customChannelsList: Channel[];
 }
+type FiltersAction = {
+	type: string;
+	payload: any;
+};
+
+export const ACTIONS = {
+	SET_SEARCH_TERM: "set-search-term",
+	SET_SELECTED_COUNTRY: "set-country",
+	SET_CUSTOM_CHECKBOX: "set-custom-checkbox",
+	RESET_SEARCH_TERM: "reset-search-term",
+	RESET_SELECTED_COUNTRY: "reset-selected-country",
+};
 
 const MAX_ROWS = 3;
 const MAX_COLUMNS = 5;
@@ -27,68 +38,97 @@ export const ChannelSelect = ({
 	const [displayedChannels, setDisplayedChannels] = useState(channelsList);
 	const [currentPage, setCurrentPage] = useState(0);
 
-	const [filters, setFilters] = useState({
+	const defaultFilters = {
 		searchTerm: "",
-		selectedCountry: "all countries",
+		selectedCountry: "",
 		customCheckboxChecked: false,
-	});
+	};
 	// OPTIONAL isFavourite -> star icon grey false default - filled yellow if true
 
+	const filterReducer: Reducer<any, FiltersAction> = (filters, action) => {
+		switch (action.type) {
+			case ACTIONS.SET_SEARCH_TERM:
+				return {
+					...filters,
+					customCheckboxChecked: false,
+					searchTerm: action.payload,
+				};
+			case ACTIONS.SET_SELECTED_COUNTRY:
+				console.log(action.payload);
+				return {
+					...filters,
+					customCheckboxChecked: false,
+					selectedCountry: action.payload,
+				};
+			case ACTIONS.SET_CUSTOM_CHECKBOX:
+				return {
+					searchTerm: "",
+					selectedCountry: "",
+					customCheckboxChecked: action.payload,
+				};
+			case ACTIONS.RESET_SEARCH_TERM:
+				return {
+					...filters,
+					searchTerm: "",
+				};
+			case ACTIONS.RESET_SELECTED_COUNTRY:
+				return {
+					...filters,
+					selectedCountry: "",
+				};
+			default:
+				return;
+		}
+	};
+
+	const [filterState, updateFilters] = useReducer(
+		filterReducer,
+		defaultFilters
+	);
+
 	const filterChannelsList = useCallback(() => {
-		const { searchTerm, selectedCountry, customCheckboxChecked } = filters;
-		const newFilteredChannelsList = channelsList.filter((channel) => {
+		const { searchTerm, selectedCountry } = filterState;
+		let newFilteredChannelsList = channelsList.filter((channel) => {
 			const { country, label } = channel;
-			if (
-				selectedCountry === "all countries" &&
-				searchTerm === "" &&
-				!customCheckboxChecked
-			)
-				return channel;
-			if (
-				searchTerm !== "" &&
+			if (searchTerm === "") {
+				if (selectedCountry === "") {
+					return channel;
+				}
+				return country === selectedCountry;
+			} else if (!selectedCountry) {
+				return label.toLowerCase().includes(searchTerm.toLowerCase());
+			}
+			return (
 				label.toLowerCase().includes(searchTerm.toLowerCase()) &&
-				!customCheckboxChecked
-			)
-				return channel;
-			if (country === selectedCountry && !customCheckboxChecked) return channel;
+				country === selectedCountry
+			);
 		});
+
 		setDisplayedChannels(newFilteredChannelsList);
 		setCurrentPage(0);
-	}, [channelsList, filters]);
+	}, [channelsList, filterState]);
 
 	useEffect(() => {
-		const { searchTerm, selectedCountry, customCheckboxChecked } = filters;
+		const { customCheckboxChecked } = filterState;
 
 		if (!customCheckboxChecked) {
 			filterChannelsList();
 			return;
 		}
-		if (
-			searchTerm === "" &&
-			selectedCountry === "all countries" &&
-			customCheckboxChecked
-		) {
-			setDisplayedChannels(customChannelsList);
-			setCurrentPage(0);
-		}
-	}, [customChannelsList, filterChannelsList, filters]);
+		setDisplayedChannels(customChannelsList);
+		setCurrentPage(0);
+	}, [customChannelsList, filterChannelsList, filterState]);
 
 	return (
 		<FlatBox gap="medium" css={{ width: "94%" }}>
-			<FiltersBar filters={filters} setFilters={setFilters} />
+			<FiltersBar updateFilters={updateFilters} filters={filterState} />
 			<ChannelsLists
 				maxRows={MAX_ROWS}
 				maxColumns={MAX_COLUMNS}
 				currentPage={currentPage}
 				setCurrentPage={setCurrentPage}
 				displayedChannels={displayedChannels}
-			/>
-			<Pagination
-				totalResults={displayedChannels.length}
-				maxRows={MAX_ROWS}
-				maxColumns={MAX_COLUMNS}
-				setCurrentPage={setCurrentPage}
-				currentPage={currentPage}
+				filters={filterState}
 			/>
 		</FlatBox>
 	);

@@ -11,6 +11,7 @@ import {
 	DoubleNextIcon,
 	DoublePreviousIcon,
 } from "../../ui/Icons";
+import { createNoSubstitutionTemplateLiteral } from "typescript";
 
 interface PaginationProps {
 	totalResults: number;
@@ -29,20 +30,11 @@ export const Pagination = ({
 	setCurrentPage,
 	currentPage,
 }: PaginationProps) => {
-	const [pageNumbers, setPageNumbers] = useState<number[]>([]);
+	const [pageNumbers, setPageNumbers] = useState<number[]>(
+		Array.from(Array(Math.ceil(totalResults / (maxRows * maxColumns))).keys())
+	);
 	const [pageNumbersSets, setPageNumbersSets] = useState<number>(0);
 	const [currentPageNumbersSet, setCurrentPageNumbersSet] = useState<number>(0);
-
-	// it fills an array with the range of numbers of the available pages
-	const getPageNumbers = useCallback(
-		(totalResults: number, maxRows: number, maxColumns: number) => {
-			const arrayOfPages = Array.from(
-				Array(Math.ceil(totalResults / (maxRows * maxColumns))).keys()
-			);
-			return arrayOfPages;
-		},
-		[]
-	);
 
 	const updatePageNumbersSets = useCallback(
 		(e) => {
@@ -72,37 +64,48 @@ export const Pagination = ({
 	const setPreviousPageNumbersSet = useCallback(() => {
 		if (currentPageNumbersSet === 0) return;
 		setCurrentPageNumbersSet(currentPageNumbersSet - 1);
-	}, [currentPageNumbersSet]);
+		setCurrentPage(currentPageNumbersSet * PAGE_NUMBERS_LIMIT - 1);
+	}, [currentPageNumbersSet, setCurrentPage]);
 
 	const setNextPageNumbersSet = useCallback(() => {
 		if (currentPageNumbersSet === pageNumbersSets - 1) return;
 		setCurrentPageNumbersSet(currentPageNumbersSet + 1);
-	}, [currentPageNumbersSet, pageNumbersSets]);
+
+		setCurrentPage((currentPageNumbersSet + 1) * PAGE_NUMBERS_LIMIT);
+	}, [currentPageNumbersSet, pageNumbersSets, setCurrentPage]);
 
 	const filteredPageNumbers = useMemo(() => {
-		return pageNumbers
-			.slice(
-				currentPageNumbersSet * PAGE_NUMBERS_LIMIT,
-				(currentPageNumbersSet + 1) * PAGE_NUMBERS_LIMIT
-			)
-			.map((pageNumber) => (
-				<PageNumber
-					pageNumber={pageNumber + 1}
-					onClick={() => setCurrentPage(pageNumber)}
-					isActive={currentPage === pageNumber}
-				/>
-			));
+		return pageNumbers[pageNumbers.length - 1]
+			? pageNumbers
+					.slice(
+						currentPageNumbersSet * PAGE_NUMBERS_LIMIT,
+						(currentPageNumbersSet + 1) * PAGE_NUMBERS_LIMIT
+					)
+					.map((pageNumber) => (
+						<PageNumber
+							pageNumber={pageNumber + 1}
+							onClick={() => setCurrentPage(pageNumber)}
+							isActive={currentPage === pageNumber}
+						/>
+					))
+			: pageNumbers.map((pageNumber) => (
+					<PageNumber
+						pageNumber={pageNumber + 1}
+						onClick={() => setCurrentPage(pageNumber)}
+						isActive={currentPage === pageNumber}
+					/>
+			  ));
 	}, [currentPageNumbersSet, currentPage, pageNumbers, setCurrentPage]);
 
 	useEffect(() => {
-		const newPageNumbers = getPageNumbers(totalResults, maxRows, maxColumns);
-		const pageNumberSets = Math.ceil(
-			newPageNumbers.length / PAGE_NUMBERS_LIMIT
-		);
-		setPageNumbers(newPageNumbers);
+		const pageNumberSets = Math.ceil(pageNumbers.length / PAGE_NUMBERS_LIMIT);
+
 		setPageNumbersSets(pageNumberSets);
 		setCurrentPageNumbersSet(0);
-	}, [getPageNumbers, maxColumns, maxRows, totalResults]);
+		setPageNumbers(
+			Array.from(Array(Math.ceil(totalResults / (maxRows * maxColumns))).keys())
+		);
+	}, [maxColumns, maxRows, pageNumbers.length, totalResults]);
 
 	return (
 		<Box
@@ -112,7 +115,7 @@ export const Pagination = ({
 			justifyContent="spaceBetween"
 		>
 			<Controller
-				id={"double-revious-icon"}
+				id={"double-previous-icon"}
 				icon={<DoublePreviousIcon />}
 				onClick={setPreviousPageNumbersSet}
 				isDisabled={!(currentPageNumbersSet !== 0)}

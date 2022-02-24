@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { ACTIONS } from "../../ChannelSelect";
 
 import { FlatBox, Label, Button } from "../../../ui/stitches.config";
 
@@ -6,12 +6,12 @@ import { CheckIcon } from "../../../ui/Icons";
 
 interface CustomCheckboxFilterProps {
 	customCheckboxChecked: boolean;
-	updateCustomCheckBox: MouseEventHandler<HTMLButtonElement>;
+	updateFilters: any;
 }
 
 export const CustomCheckboxFilter = ({
 	customCheckboxChecked,
-	updateCustomCheckBox,
+	updateFilters,
 }: CustomCheckboxFilterProps) => {
 	return (
 		<FlatBox
@@ -26,7 +26,12 @@ export const CustomCheckboxFilter = ({
 			<Button
 				boxShadow="none"
 				margin="small"
-				onClick={updateCustomCheckBox}
+				onClick={(e) =>
+					updateFilters({
+						type: ACTIONS.SET_CUSTOM_CHECKBOX,
+						payload: !customCheckboxChecked,
+					})
+				}
 				isActive={customCheckboxChecked}
 				css={{ padding: "$xsmall" }}
 			>

@@ -219,8 +219,6 @@ export const Button = styled("button", {
 	"&:disabled": {
 		pointerEvents: "none",
 		cursor: "no-drop",
-		stroke: "$gray25",
-		color: "$gray25",
 		boxShadow: "none",
 		opacity: 0.3,
 		"&:hover": {
@@ -234,16 +232,14 @@ export const Button = styled("button", {
 		cta: {
 			true: {
 				backgroundColor: "transparent",
-				border: "1px solid $accentColor1",
 				color: "$accentColor1",
 				"&:hover": {
 					backgroundColor: "$accentColor1",
-					color: "$color1",
+					color: "white",
 					borderColor: "transparent",
 				},
 			},
 		},
-
 		icon: {
 			true: {
 				stroke: "$gray25",
@@ -253,9 +249,9 @@ export const Button = styled("button", {
 				margin: "$none",
 				width: "3rem",
 				height: "3rem",
-				backgroundColor: "transparent",
+				backgroundColor: "$color1",
 				"&:hover": {
-					backgroundColor: "transparent",
+					backgroundColor: "$color1",
 					stroke: "$accentColor1",
 					color: "$accentColor1",
 				},
@@ -269,10 +265,6 @@ export const Button = styled("button", {
 					backgroundColor: "$accentColor1",
 					color: "$color1",
 				},
-			},
-			false: {
-				backgroundColor: "$color1",
-				color: "$color2",
 			},
 		},
 		padding: {
