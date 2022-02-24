@@ -50,11 +50,10 @@ export const ChannelSelect = ({
 			case ACTIONS.SET_SEARCH_TERM:
 				return {
 					...filters,
-					customCheckboxChecked: false,
 					searchTerm: action.payload,
+					customCheckboxChecked: false,
 				};
 			case ACTIONS.SET_SELECTED_COUNTRY:
-				console.log(action.payload);
 				return {
 					...filters,
 					customCheckboxChecked: false,

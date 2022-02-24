@@ -81,16 +81,20 @@ export const ChannelsList = ({
 						<b>
 							<span>{filters.searchTerm}</span>
 						</b>
-						{filters.selectedCountry && (
+						{
 							<>
 								<span>in </span>
 								<b>
 									<span>
-										{countriesFullNames[filters.selectedCountry.toLowerCase()]}
+										{filters.selectedCountry === ""
+											? "all countries"
+											: countriesFullNames[
+													filters.selectedCountry.toLowerCase()
+											  ]}
 									</span>
 								</b>
 							</>
-						)}
+						}
 					</div>
 				</div>
 			)}

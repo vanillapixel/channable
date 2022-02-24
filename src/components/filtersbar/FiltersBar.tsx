@@ -23,10 +23,7 @@ export const FiltersBar = ({ updateFilters, filters }: FiltersBarProps) => {
 		>
 			<Text fontSize="medium">Filter by:</Text>
 			<FlatBox gap="large" padding="small" flexDirection="row">
-				<SearchTermFilter
-					searchTerm={filters.searchTerm}
-					updateFilters={updateFilters}
-				/>
+				<SearchTermFilter filters={filters} updateFilters={updateFilters} />
 				<CountryFilter
 					selectedCountry={filters.selectedCountry}
 					updateFilters={updateFilters}

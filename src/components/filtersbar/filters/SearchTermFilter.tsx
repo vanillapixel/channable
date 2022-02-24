@@ -8,14 +8,19 @@ import { ACTIONS } from "../../ChannelSelect";
 import { Button, Label, FlatBox } from "../../../ui/stitches.config";
 
 interface SearchTermFilterProps {
-	searchTerm: string;
+	filters: {
+		searchTerm: string;
+		selectedCountry: string;
+		customCheckboxChecked: boolean;
+	};
 	updateFilters: any;
 }
 
 export const SearchTermFilter = ({
-	searchTerm,
+	filters: { searchTerm, customCheckboxChecked },
 	updateFilters,
 }: SearchTermFilterProps) => {
+	const [term, setTerm] = useState(searchTerm);
 	const [newSearchTerm, setNewSearchTerm] = useState(searchTerm);
 	const debouncedValue = useDebounce(newSearchTerm, 300);
 
@@ -26,11 +31,28 @@ export const SearchTermFilter = ({
 		});
 	}, [debouncedValue, updateFilters]);
 
+	const updateNewSearchTerm = (term: string) => {
+		setTerm(term);
+		setNewSearchTerm(term);
+	};
+
 	useEffect(() => {
 		updateSearchTerm();
 	}, [debouncedValue, updateSearchTerm]);
 
+	useEffect(() => {
+		let previousTerm = term;
+		if (customCheckboxChecked) {
+			setTerm("");
+		} else {
+			setTerm(previousTerm);
+		}
+		return;
+	}, [customCheckboxChecked]);
+
 	const resetsearchTerm = () => {
+		setTerm("");
+		setNewSearchTerm("");
 		updateFilters({ type: ACTIONS.RESET_SEARCH_TERM });
 	};
 
@@ -41,7 +63,7 @@ export const SearchTermFilter = ({
 			overflow="hidden"
 			gap="none"
 		>
-			<Label accent={searchTerm !== "" ? true : false} htmlFor="search-term">
+			<Label accent={term !== "" ? true : false} htmlFor="search-term">
 				Channel name:
 			</Label>
 			<input
@@ -49,11 +71,11 @@ export const SearchTermFilter = ({
 				type="text"
 				id="search-term"
 				name="term"
-				value={newSearchTerm}
+				value={term}
 				placeholder="Search for channels, e.g. Google"
-				onChange={(e) => setNewSearchTerm(e.target.value)}
+				onChange={(e) => updateNewSearchTerm(e.target.value)}
 			/>
-			<Button icon disabled={!(searchTerm !== "")}>
+			<Button icon disabled={!(term !== "")}>
 				<CloseIcon className="icon" onClick={resetsearchTerm} />
 			</Button>
 		</FlatBox>
