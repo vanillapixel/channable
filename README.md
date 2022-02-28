@@ -19,7 +19,10 @@ yarn run start
 ## Features
 
 - Added message that warns the user if no matches are found.
+
 - Added a custom search parameter to filter all the custom channels.
+
+- Active filters have highlighted UI.
 
 - Pagination shows the last page number to help the user identify the amount of browsable pages
 
