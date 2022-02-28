@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, ChangeEvent } from "react";
 
 import { channelsData } from "../../../data/channelsData";
 import { countries } from "../../../data/countries";
@@ -36,7 +36,7 @@ export const CountryFilter = ({
 			.filter((x) => !x.toLowerCase().includes("rs"));
 	}, []);
 
-	const updateCountry = (e: any) => {
+	const updateCountry = (e: ChangeEvent<HTMLSelectElement>) => {
 		updateFilters({
 			type: ACTIONS.SET_SELECTED_COUNTRY,
 			payload: e.target.value,

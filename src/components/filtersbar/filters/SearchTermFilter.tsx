@@ -31,7 +31,7 @@ export const SearchTermFilter = ({
 		});
 	}, [debouncedValue, updateFilters]);
 
-	const updateNewSearchTerm = (term: string) => {
+	const updateInputValue = (term: string) => {
 		setTerm(term);
 		setNewSearchTerm(term);
 	};
@@ -73,7 +73,7 @@ export const SearchTermFilter = ({
 				name="term"
 				value={term}
 				placeholder="Search for channels, e.g. Google"
-				onChange={(e) => updateNewSearchTerm(e.target.value)}
+				onChange={(e) => updateInputValue(e.target.value)}
 			/>
 			<Button icon disabled={!(term !== "")}>
 				<CloseIcon className="icon" onClick={resetsearchTerm} />
